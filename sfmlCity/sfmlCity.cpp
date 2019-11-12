@@ -20,6 +20,8 @@ int main()
 
 	while (window.isOpen())
 	{
+		//blahh blahh test
+		//blahhh blahh blahh
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
