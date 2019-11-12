@@ -15,7 +15,7 @@ City::~City()
 //inilization func
 void City::initWindow()
 {
-
+	this->window = new sf::RenderWindow(sf::VideoMode(500, 500), "test Window", sf::Style::Default); 
 }
 
 

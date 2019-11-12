@@ -21,7 +21,7 @@ private:
 	void initWindow(); 
 
 	//Variables
-	sf::RenderWindow window; 
+	sf::RenderWindow *window; 
 	sf::Event sfEvent; 
 public:
 	//constructor/destructor
