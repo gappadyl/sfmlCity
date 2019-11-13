@@ -20,9 +20,13 @@ private:
 	//initialization func
 	void initWindow(); 
 
+
+
 	//Variables
 	sf::RenderWindow *window; 
 	sf::Event sfEvent; 
+
+
 public:
 	//constructor/destructor
 	City();
