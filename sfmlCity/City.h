@@ -19,13 +19,13 @@ private:
 
 	//initialization func
 	void initWindow(); 
-
+	void initTriangle(); 
 
 
 	//Variables
 	sf::RenderWindow *window; 
 	sf::Event sfEvent; 
-
+	sf::VertexArray *triangle; 
 
 public:
 	//constructor/destructor
