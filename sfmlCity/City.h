@@ -2,14 +2,8 @@
 
 
 #include<iostream>
-#include<ctime>
-#include<cstdlib>
+#include "tileMap.h"
 
-#include"SFML/System.hpp"
-#include"SFML/window.hpp"
-#include"SFML/Graphics.hpp"
-#include"SFML/Audio.hpp"
-#include"SFML/Network.hpp"
 
 
 
@@ -19,13 +13,26 @@ private:
 
 	//initialization func
 	void initWindow(); 
-	void initTriangle(); 
-
+	bool initTileMap(); 
+	void drawTileMap(); 
+	
 
 	//Variables
 	sf::RenderWindow *window; 
 	sf::Event sfEvent; 
-	sf::VertexArray *triangle; 
+	tileMap map; 
+
+	 const int level[128]= 
+	 {
+		 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0,
+		1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3,
+		0, 1, 0, 0, 2, 0, 3, 3, 3, 0, 1, 1, 1, 0, 0, 0,
+		0, 1, 1, 0, 3, 3, 3, 0, 0, 0, 1, 1, 1, 2, 0, 0,
+		0, 0, 1, 0, 3, 0, 2, 2, 0, 0, 1, 1, 1, 1, 2, 0,
+		2, 0, 1, 0, 3, 0, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1,
+		0, 0, 1, 0, 3, 2, 2, 2, 0, 0, 0, 0, 1, 1, 1, 1,
+	 };
 
 public:
 	//constructor/destructor
@@ -37,9 +44,8 @@ public:
 	void update();
 	void render(); 
 	void run(); 
-
+	
+	
 };
-
-
 
 

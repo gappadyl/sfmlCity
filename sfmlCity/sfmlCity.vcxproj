@@ -159,9 +159,11 @@
   <ItemGroup>
     <ClCompile Include="City.cpp" />
     <ClCompile Include="sfmlCity.cpp" />
+    <ClCompile Include="tileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="City.h" />
+    <ClInclude Include="tileMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
