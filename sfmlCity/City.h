@@ -16,6 +16,8 @@ private:
 	void initView();
 	bool initTileMap(); 
 	void drawTileMap(); 
+
+	bool cameraWithinWorld();
 	void pollKeyEvents();
 	
 
@@ -23,12 +25,13 @@ private:
 	sf::RenderWindow *window; 
 	sf::Event sfEvent; 
 	sf::View camera;
-	sf::Clock clock;
+	sf::Clock dtClock;
+	float dt;
 	sf::Vector2i mousepos;
 	tileMap map; 
 
-	 const int level[128]= 
-	 {
+	const int level[128]= 
+	{
 		0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3,
@@ -37,7 +40,7 @@ private:
 		0, 0, 1, 0, 3, 0, 2, 2, 0, 0, 1, 1, 1, 1, 2, 0,
 		2, 0, 1, 0, 3, 0, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1,
 		0, 0, 1, 0, 3, 2, 2, 2, 0, 0, 0, 0, 1, 1, 1, 1,
-	 };
+	};
 
 public:
 	//constructor/destructor
@@ -45,6 +48,7 @@ public:
 	virtual ~City();
 
 	//Functions
+	void updateDT();
 	void updateSFMLEvents();
 	void update();
 	void render(); 

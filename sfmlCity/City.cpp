@@ -4,7 +4,7 @@ using namespace std;
 //inilization func
 void City::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(250, 250), "test Window", sf::Style::Close | sf::Style::Resize);
+	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "test Window", sf::Style::Close | sf::Style::Resize);
 	this->window->setView(camera);
 }
 
@@ -57,41 +57,60 @@ void City::drawTileMap()
 	this->window->draw(this->map);
 }
 
+bool City::cameraWithinWorld()
+{
+	sf::Vector2f cameraCenter = camera.getCenter();
+	sf::Vector2f cameraSize	  = camera.getSize();
+
+	if (cameraCenter.x + cameraSize.x < 0)
+	{
+		return false;
+	}
+	return true;
+}
+
 void City::pollKeyEvents()
 {
-	const float deltaTime = this->clock.restart().asSeconds();
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp) && camera.getSize().x >= 10)
-		camera.zoom(1.f - deltaTime);
+		camera.zoom(1.f - this->dt);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown) && camera.getSize().x <= 1000)
-		camera.zoom(1.f + deltaTime);
+		camera.zoom(1.f + this->dt);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		camera.move(-0.5f + deltaTime, 0);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		camera.move(0.5f + deltaTime, 0);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		camera.move(0, -0.5f + deltaTime);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		camera.move(0, 0.5f + deltaTime);
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (cameraWithinWorld())
 	{
-		const sf::Vector2i mousepos = sf::Mouse::getPosition();
 
-		if (this->mousepos != mousepos)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			camera.move(-0.5f + this->dt, 0);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			camera.move(0.5f + this->dt, 0);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			camera.move(0, -0.5f + this->dt);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			camera.move(0, 0.5f + this->dt);
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			sf::Vector2f relativePos1 = this->window->mapPixelToCoords(mousepos);
-			sf::Vector2f relativePos2 = this->window->mapPixelToCoords(this->mousepos);
-			camera.move(relativePos2.x - relativePos1.x, relativePos2.y - relativePos1.y);
+			const sf::Vector2i mousepos = sf::Mouse::getPosition();
+
+			if (this->mousepos != mousepos)
+			{
+				sf::Vector2f relativePos1 = this->window->mapPixelToCoords(mousepos);
+				sf::Vector2f relativePos2 = this->window->mapPixelToCoords(this->mousepos);
+				camera.move(relativePos2.x - relativePos1.x, relativePos2.y - relativePos1.y);
+			}
 		}
 	}
 
 	this->mousepos = sf::Mouse::getPosition();
+}
+
+void City::updateDT()
+{
+	this->dt = this->dtClock.restart().asSeconds();
 }
 
 void City::updateSFMLEvents()
@@ -140,11 +159,10 @@ void City::run()
 {
 	while (this->window->isOpen())
 	{
+		this->updateDT();
 		this->update(); 
-		std::cout << "x: " << camera.getCenter().x << "y: " << camera.getCenter().y << std::endl;
-		 
+
 		this->render(); 
-		
 	}
 }
 
