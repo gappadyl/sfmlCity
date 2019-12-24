@@ -85,8 +85,9 @@ void City::pollKeyEvents()
 
 		if (this->mousepos != mousepos)
 		{
-			sf::Vector2f relativePos = this->window->mapPixelToCoords(mousepos);
-			camera.setCenter(relativePos.x, relativePos.y);
+			sf::Vector2f relativePos1 = this->window->mapPixelToCoords(mousepos);
+			sf::Vector2f relativePos2 = this->window->mapPixelToCoords(this->mousepos);
+			camera.move(relativePos2.x - relativePos1.x, relativePos2.y - relativePos1.y);
 		}
 	}
 
