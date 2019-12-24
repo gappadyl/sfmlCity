@@ -13,18 +13,22 @@ private:
 
 	//initialization func
 	void initWindow(); 
+	void initView();
 	bool initTileMap(); 
 	void drawTileMap(); 
+	void pollKeyEvents();
 	
 
 	//Variables
 	sf::RenderWindow *window; 
 	sf::Event sfEvent; 
+	sf::View camera;
+	sf::Clock clock;
 	tileMap map; 
 
 	 const int level[128]= 
 	 {
-		 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3,
 		0, 1, 0, 0, 2, 0, 3, 3, 3, 0, 1, 1, 1, 0, 0, 0,
