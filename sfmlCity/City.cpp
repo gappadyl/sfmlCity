@@ -1,5 +1,5 @@
 #include "City.h"
-
+using namespace std;
 
 //inilization func
 void City::initWindow()
@@ -7,17 +7,31 @@ void City::initWindow()
 	this->window = new sf::RenderWindow(sf::VideoMode(500, 500), "test Window", sf::Style::Close | sf::Style::Resize);
 }
 
-void City::initTriangle()
+bool City::initTileMap()
 {
-	this->triangle = new sf::VertexArray(sf::Triangles, 3);
-	
+	if (!(this->map.load("tileset.png", sf::Vector2u(32, 32), level, 16, 8)))
+		throw("failed to find tileset file");
+	else
+		return 1; 
 }
+
+
+
 //constructor/destructor
 City::City()
 { 
-	this->initWindow(); 
-	this->initTriangle(); 
-
+	
+	this->initWindow(); //initializes the window
+	
+	try { //loads the tile map textures and positions
+		this->initTileMap();
+	}
+	catch (const char* msg)
+	{
+		cerr << msg << endl; //can't find the png file
+	}
+	
+	
 }
 
 City::~City()
@@ -30,6 +44,12 @@ City::~City()
 
 
 //Functions
+
+void City::drawTileMap()
+{
+	this->window->draw(this->map);
+}
+
 void City::updateSFMLEvents()
 {
 	while (this->window->pollEvent(this->sfEvent))
@@ -51,6 +71,10 @@ void City::render()
 {
 	//clears the window
 	this->window->clear();
+	//draws
+	this->drawTileMap(); 
+	
+	
 	//displays the window
 	this->window->display(); 
 }
@@ -60,7 +84,9 @@ void City::run()
 	while (this->window->isOpen())
 	{
 		this->update(); 
+		 
 		this->render(); 
+		
 	}
 }
 
