@@ -24,6 +24,7 @@ private:
 	sf::Event sfEvent; 
 	sf::View camera;
 	sf::Clock clock;
+	sf::Vector2i mousepos;
 	tileMap map; 
 
 	 const int level[128]= 

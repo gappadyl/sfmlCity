@@ -61,10 +61,10 @@ void City::pollKeyEvents()
 {
 	const float deltaTime = this->clock.restart().asSeconds();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp) && camera.getSize().x > 10)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp) && camera.getSize().x >= 10)
 		camera.zoom(1.f - deltaTime);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown) && camera.getSize().x < 1000)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown) && camera.getSize().x <= 1000)
 		camera.zoom(1.f + deltaTime);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -78,6 +78,19 @@ void City::pollKeyEvents()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		camera.move(0, 0.5f + deltaTime);
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		const sf::Vector2i mousepos = sf::Mouse::getPosition();
+
+		if (this->mousepos != mousepos)
+		{
+			sf::Vector2f relativePos = this->window->mapPixelToCoords(mousepos);
+			camera.setCenter(relativePos.x, relativePos.y);
+		}
+	}
+
+	this->mousepos = sf::Mouse::getPosition();
 }
 
 void City::updateSFMLEvents()
@@ -91,7 +104,14 @@ void City::updateSFMLEvents()
 
 		if (this->sfEvent.type == sf::Event::MouseWheelMoved)
 		{
-			camera.zoom(1.f - this->sfEvent.mouseWheel.delta * 0.1f);
+			if(camera.getSize().x >= 10 && camera.getSize().x <= 1000)
+				camera.zoom(1.f - this->sfEvent.mouseWheel.delta * 0.1f);
+			 
+			if (camera.getSize().x < 10)
+				camera.setSize(10, 10);
+
+			if (camera.getSize().y > 1000)
+				camera.setSize(1000, 1000);
 		}
 	}
 }
@@ -120,7 +140,7 @@ void City::run()
 	while (this->window->isOpen())
 	{
 		this->update(); 
-		std::cout << "x: " << camera.getSize().x << "y: " << camera.getSize().y << std::endl;
+		std::cout << "x: " << camera.getCenter().x << "y: " << camera.getCenter().y << std::endl;
 		 
 		this->render(); 
 		
