@@ -17,7 +17,7 @@ private:
 	bool initTileMap(); 
 	void drawTileMap(); 
 	void pollKeyEvents();
-	
+	sf::View correctRatioView(sf::View view, int windowWidth, int windowHeight); 
 
 	//Variables
 	sf::RenderWindow *window; 
