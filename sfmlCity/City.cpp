@@ -1,11 +1,10 @@
 #include "City.h"
 using namespace std;
-
 //inilization func
 void City::initWindow()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "test Window", sf::Style::Close | sf::Style::Resize);
-	std::cout << "x: " << this->window->getSize().x << "y: " << this->window->getSize().y << std::endl; 
+	this->window->setView(camera);
 }
 
 void City::initView()
@@ -13,12 +12,11 @@ void City::initView()
 	this->camera.setCenter(this->window->getSize().x/2.f, this->window->getSize().y/2.f);
 	this->camera.setSize(this->window->getSize().x, this->window->getSize().y) ;
 	this->camera = correctRatioView(camera, this->window->getSize().x, this->window->getSize().y); 
-	this->window->setView(camera); 
 }
 
 bool City::initTileMap()
 {
-	if (!(this->map.load("tileset.png", sf::Vector2u(32, 32), level, 16, 8)))
+	if (!(this->map.load("tileset.png", sf::Vector2u(32, 32), level, 16, 16)))
 		throw("failed to find tileset file");
 	else
 		return 1; 
@@ -84,10 +82,6 @@ City::~City()
 	delete this->window; 
 }
 
-
-
-
-
 //Functions
 
 void City::drawTileMap()
@@ -95,19 +89,33 @@ void City::drawTileMap()
 	this->window->draw(this->map);
 }
 
+//the number 512 is determined by 16x32, 16 is the number of horizontal/vertical tiles and 32 is the horizontal/vertical size of the tiles
+bool City::isCameraLegal(sf::Vector2f center, sf::Vector2f size)
+{
+	if (center.x - size.x / 2 < 0)
+		return false;
+
+	if (center.x + size.x / 2  > 512)
+		return false;
+
+	if (center.y - size.y / 2 < 0)
+		return false;
+
+	if (center.y + size.y / 2 > 512)
+		return false;
+
+	return true;
+}
+
 void City::pollKeyEvents()
 {
-	const float deltaTime = this->clock.restart().asSeconds();
-	bool cameraMove = true;
-	//zoom
+  bool cameraMove = true;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp) && camera.getSize().x >= 10)
-		camera.zoom(1.f - deltaTime);
+		camera.zoom(1.f - this->dt);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown) && camera.getSize().x <= 1000)
-		camera.zoom(1.f + deltaTime);
-
-	 
-
+		camera.zoom(1.f + this->dt);
+  
 	if (cameraMove == true)
 	{
 		//camera controls
@@ -125,7 +133,18 @@ void City::pollKeyEvents()
 
 		/*sf::Vector2f mouse = this->window->mapPixelToCoords(this->mousepos); 
 		std::cout << "mouse x: " << mouse.x << "mouse.y" << mouse.y << std::endl; */
+    
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			camera.move(-0.5f + this->dt, 0);
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			camera.move(0.5f + this->dt, 0);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			camera.move(0, -0.5f + this->dt);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			camera.move(0, 0.5f + this->dt);
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
@@ -133,18 +152,18 @@ void City::pollKeyEvents()
 
 			if (this->mousepos != mousepos)
 			{
-				sf::Vector2f relativePos1 = this->window->mapPixelToCoords(mousepos); // first mouse click
-				sf::Vector2f relativePos2 = this->window->mapPixelToCoords(this->mousepos); // mouse drag
-				camera.move(relativePos2.x - relativePos1.x, relativePos2.y - relativePos1.y); //move based on difference 
+				sf::Vector2f relativePos1 = this->window->mapPixelToCoords(mousepos);
+				sf::Vector2f relativePos2 = this->window->mapPixelToCoords(this->mousepos);
+				camera.move(relativePos2.x - relativePos1.x, relativePos2.y - relativePos1.y);
 			}
 		}
-
-		this->mousepos = sf::Mouse::getPosition();
-	}
-
+}
 }
 
-
+void City::updateDT()
+{
+	this->dt = this->dtClock.restart().asSeconds();
+}
 
 void City::updateSFMLEvents()
 {
@@ -152,19 +171,26 @@ void City::updateSFMLEvents()
 	{
 		if (this->sfEvent.type == sf::Event::Closed)
 		{
-			this->window->close(); 
-	    }
+			this->window->close();
+		}
 
-		if (this->sfEvent.type == sf::Event::MouseWheelMoved)
+		if (this->sfEvent.type == sf::Event::GainedFocus)
 		{
-			if(camera.getSize().x >= 10 && camera.getSize().x <= 1000)
+			this->bHasFocus = true;
+		}
+
+		if (this->sfEvent.type == sf::Event::LostFocus)
+		{
+				this->bHasFocus = false;
+		}
+
+		if (this->sfEvent.type == sf::Event::MouseWheelMoved && this->bHasFocus)
+		{
+			if(camera.getSize().x >= 10)
 				camera.zoom(1.f - this->sfEvent.mouseWheel.delta * 0.1f);
 			 
 			if (camera.getSize().x < 10)
 				camera.setSize(10, 10);
-
-			if (camera.getSize().y > 1000)
-				camera.setSize(1000, 1000);
 		}
 		
 		if (this->sfEvent.type == sf::Event::Resized)
@@ -177,8 +203,19 @@ void City::updateSFMLEvents()
 
 void City::update()
 {
-	this->pollKeyEvents();
+	sf::View oldCam = this->camera;
+
+	if (this->bHasFocus)
+	{
+		this->pollKeyEvents();
+	}
+
 	this->updateSFMLEvents(); 
+
+	if (!isCameraLegal(this->camera.getCenter(), this->camera.getSize()))
+	{
+		this->camera = oldCam;
+	}
 }
 
 void City::render()
@@ -187,7 +224,6 @@ void City::render()
 	this->window->clear();
 	//draws
 	this->drawTileMap(); 
-	
 	
 	//displays the window
 	this->window->setView(camera);
@@ -198,12 +234,10 @@ void City::run()
 {
 	while (this->window->isOpen())
 	{
+		this->updateDT();
 		this->update(); 
-		
-		//std::cout << "x: " << camera.getCenter().x << "y: " << camera.getCenter().y << std::endl;
-		
+    
 		this->render(); 
-		
 	}
 }
 
