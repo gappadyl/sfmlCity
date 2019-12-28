@@ -10,13 +10,13 @@ void City::initWindow()
 
 void City::initView()
 {
-	this->camera.setCenter(125.f, 125.f);
-	this->camera.setSize(125.f, 125.f);
+	this->camera.setCenter(256.f, 256.f);
+	this->camera.setSize(256.f, 256.f);
 }
 
 bool City::initTileMap()
 {
-	if (!(this->map.load("tileset.png", sf::Vector2u(32, 32), level, 16, 8)))
+	if (!(this->map.load("tileset.png", sf::Vector2u(32, 32), level, 16, 16)))
 		throw("failed to find tileset file");
 	else
 		return 1; 
@@ -46,10 +46,6 @@ City::~City()
 	delete this->window; 
 }
 
-
-
-
-
 //Functions
 
 void City::drawTileMap()
@@ -57,15 +53,21 @@ void City::drawTileMap()
 	this->window->draw(this->map);
 }
 
-bool City::cameraWithinWorld()
+//the number 512 is determined by 16x32, 16 is the number of horizontal/vertical tiles and 32 is the horizontal/vertical size of the tiles
+bool City::isCameraLegal(sf::Vector2f center, sf::Vector2f size)
 {
-	sf::Vector2f cameraCenter = camera.getCenter();
-	sf::Vector2f cameraSize	  = camera.getSize();
-
-	if (cameraCenter.x + cameraSize.x < 0)
-	{
+	if (center.x - size.x / 2 < 0)
 		return false;
-	}
+
+	if (center.x + size.x / 2  > 512)
+		return false;
+
+	if (center.y - size.y / 2 < 0)
+		return false;
+
+	if (center.y + size.y / 2 > 512)
+		return false;
+
 	return true;
 }
 
@@ -76,9 +78,6 @@ void City::pollKeyEvents()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown) && camera.getSize().x <= 1000)
 		camera.zoom(1.f + this->dt);
-
-	if (cameraWithinWorld())
-	{
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			camera.move(-0.5f + this->dt, 0);
@@ -103,7 +102,6 @@ void City::pollKeyEvents()
 				camera.move(relativePos2.x - relativePos1.x, relativePos2.y - relativePos1.y);
 			}
 		}
-	}
 
 	this->mousepos = sf::Mouse::getPosition();
 }
@@ -119,27 +117,45 @@ void City::updateSFMLEvents()
 	{
 		if (this->sfEvent.type == sf::Event::Closed)
 		{
-			this->window->close(); 
-	    }
+			this->window->close();
+		}
 
-		if (this->sfEvent.type == sf::Event::MouseWheelMoved)
+		if (this->sfEvent.type == sf::Event::GainedFocus)
 		{
-			if(camera.getSize().x >= 10 && camera.getSize().x <= 1000)
+			this->bHasFocus = true;
+		}
+
+		if (this->sfEvent.type == sf::Event::LostFocus)
+		{
+				this->bHasFocus = false;
+		}
+
+		if (this->sfEvent.type == sf::Event::MouseWheelMoved && this->bHasFocus)
+		{
+			if(camera.getSize().x >= 10)
 				camera.zoom(1.f - this->sfEvent.mouseWheel.delta * 0.1f);
 			 
 			if (camera.getSize().x < 10)
 				camera.setSize(10, 10);
-
-			if (camera.getSize().y > 1000)
-				camera.setSize(1000, 1000);
 		}
 	}
 }
 
 void City::update()
 {
-	this->pollKeyEvents();
+	sf::View oldCam = this->camera;
+
+	if (this->bHasFocus)
+	{
+		this->pollKeyEvents();
+	}
+
 	this->updateSFMLEvents(); 
+
+	if (!isCameraLegal(this->camera.getCenter(), this->camera.getSize()))
+	{
+		this->camera = oldCam;
+	}
 }
 
 void City::render()
@@ -148,7 +164,6 @@ void City::render()
 	this->window->clear();
 	//draws
 	this->drawTileMap(); 
-	
 	
 	//displays the window
 	this->window->setView(camera);
