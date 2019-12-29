@@ -29,6 +29,9 @@ private:
 	float dt;
 	sf::Vector2i mousepos;
 	tileMap map; 
+	unsigned int heightMap; 
+	unsigned int widthMap; 
+	unsigned int tileLength; 
 	bool bHasFocus = true;
 
 	const int level[256]= 
@@ -62,6 +65,7 @@ public:
 	void update();
 	void render(); 
 	void run(); 
+	void boundsControl( sf::View* currentCamera, sf::View oldCamera);
 	
 	
 };
