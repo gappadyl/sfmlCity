@@ -1,8 +1,8 @@
 #pragma once
 
-
 #include<iostream>
 #include "tileMap.h"
+#include "Camera.h"
 
 
 
@@ -15,19 +15,16 @@ private:
 	void initWindow(); 
 	void initView();
 	bool initTileMap(); 
-	void drawTileMap(); 
-
-	bool isCameraLegal(sf::Vector2f pos, sf::Vector2f size);
-	void pollKeyEvents();
-	sf::View correctRatioView(sf::View view, int windowWidth, int windowHeight); 
+	void drawTileMap();
+	
+	
 
 	//Variables
 	sf::RenderWindow *window; 
 	sf::Event sfEvent; 
-	sf::View camera;
+	Camera camera; 
 	sf::Clock dtClock;
 	float dt;
-	sf::Vector2i mousepos;
 	tileMap map; 
 	unsigned int heightMap; 
 	unsigned int widthMap; 
@@ -65,7 +62,7 @@ public:
 	void update();
 	void render(); 
 	void run(); 
-	void boundsControl( sf::View* currentCamera, sf::View oldCamera);
+	
 	
 	
 };
