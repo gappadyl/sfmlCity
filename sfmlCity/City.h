@@ -3,7 +3,7 @@
 #include<iostream>
 #include "tileMap.h"
 #include "Camera.h"
-
+#include "Population.h"
 
 
 
@@ -16,6 +16,7 @@ private:
 	void initView();
 	bool initTileMap(); 
 	void drawTileMap();
+	void initPopulation(); 
 	
 	
 
@@ -24,8 +25,10 @@ private:
 	sf::Event sfEvent; 
 	Camera camera; 
 	sf::Clock dtClock;
+	tileMap map;
+	Population pop; 
+
 	float dt;
-	tileMap map; 
 	unsigned int heightMap; 
 	unsigned int widthMap; 
 	unsigned int tileLength; 

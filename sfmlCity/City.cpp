@@ -60,6 +60,11 @@ void City::drawTileMap()
 	this->window->draw(this->map);
 }
 
+void City::initPopulation()
+{
+
+}
+
 void City::updateDT()
 {
 	this->dt = this->dtClock.restart().asSeconds();

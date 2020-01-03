@@ -9,12 +9,13 @@ void Camera::initCamera()
 	this->camera = correctRatioView(this->camera, map_Width, map_Height); 
 }
 
-Camera::Camera(sf::RenderWindow* window, float width, float height, float pixelLength)
+Camera::Camera(sf::RenderWindow* window, float width, float height, float pixelLength)//constructor
 {
 	this->map_Width = width;
 	this->map_Height = height;
 	this->map_PixelLength = pixelLength; 
 	this->window = window; 
+
 	initCamera(); 
 
 
@@ -58,17 +59,17 @@ void Camera::cameraRender()
 	this->window->setView(this->camera); 
 }
 
-sf::View* Camera::getCamera()
+sf::View* Camera::getCamera()//returns pointer to View camera
 {
 	return &(this->camera); 
 }
 
-sf::View Camera::getOldCamera()
+sf::View Camera::getOldCamera()//returns copy of View camera
 {
 	return this->oldCamera; 
 }
 
-void Camera::boundsControl(sf::View* currentCamera, sf::View oldCamera)
+void Camera::boundsControl(sf::View* currentCamera, sf::View oldCamera)//check bounds and updates if out of bounds
 {
 	 
 	if (!isCameraLegal(currentCamera->getCenter(), currentCamera->getSize()))
@@ -79,7 +80,7 @@ void Camera::boundsControl(sf::View* currentCamera, sf::View oldCamera)
 	}
 }
 
-bool Camera::isCameraLegal(sf::Vector2f center, sf::Vector2f size)
+bool Camera::isCameraLegal(sf::Vector2f center, sf::Vector2f size) // checks if camera is legal
 {
 	if (center.x - size.x / 2 < 0)
 	{
@@ -99,7 +100,7 @@ bool Camera::isCameraLegal(sf::Vector2f center, sf::Vector2f size)
 	return true;
 }
 
-sf::View Camera::correctRatioView(sf::View view, float windowWidth, float windowHeight)
+sf::View Camera::correctRatioView(sf::View view, float windowWidth, float windowHeight)//adjusts ratio
 {
 	float windowRatio = windowWidth / (float)windowHeight;
 	float viewRatio = view.getSize().x / (float)view.getSize().y;
@@ -136,7 +137,7 @@ sf::View Camera::correctRatioView(sf::View view, float windowWidth, float window
 	return view;
 }
 
-void Camera::cameraKeyEvents()
+void Camera::cameraKeyEvents()//all key events for camera
 {
 	//camera controls
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp) && camera.getSize().x >= 10)
