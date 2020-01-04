@@ -26,7 +26,7 @@ private:
 	Camera camera; 
 	sf::Clock dtClock;
 	tileMap map;
-	Population pop; 
+	Population population; 
 
 	float dt;
 	unsigned int heightMap; 

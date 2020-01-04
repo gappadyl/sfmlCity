@@ -19,11 +19,15 @@ void City::initView()
 	
 	
 }
+void City::initPopulation()
+{
+	this->population = Population( (this->level), this->window); 
+}
 
 bool City::initTileMap()
 {
 
-	if (!(this->map.load("tileset.png", sf::Vector2u(tileLength, tileLength), level, widthMap, heightMap)))
+	if (!(this->map.load("Textures/background/tileset.png", sf::Vector2u(tileLength, tileLength), level, widthMap, heightMap)))
 		throw("failed to find tileset file");
 	else
 		return 1; 
@@ -45,6 +49,8 @@ City::City()
 
 
 	}
+
+	initPopulation(); 
 }
 
 City::~City()
@@ -60,10 +66,7 @@ void City::drawTileMap()
 	this->window->draw(this->map);
 }
 
-void City::initPopulation()
-{
 
-}
 
 void City::updateDT()
 {
@@ -99,6 +102,8 @@ void City::update()
 	
 	this->camera.cameraUpdate(dt, bHasFocus); //camera update
 	this->updateSFMLEvents(); //SFML Event
+	this->population.updatePopulation(dt); 
+
 	this->camera.boundsControl((camera.getCamera() ), camera.getOldCamera());//bounds check post movement
 
 }
@@ -110,6 +115,7 @@ void City::render()
 
 	//draws
 	this->drawTileMap(); 
+	this->population.renderPopulation(); 
 	//sets window view to camera
 	this->camera.cameraRender();
 	//displays the window

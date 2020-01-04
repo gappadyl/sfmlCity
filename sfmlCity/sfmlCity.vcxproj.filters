@@ -16,6 +16,12 @@
     <Filter Include="Source Files\Camera">
       <UniqueIdentifier>{3485dcfc-33ba-4336-8a6a-f1501e79b484}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Population">
+      <UniqueIdentifier>{ff230c0b-72af-42c4-9bc2-552fb6bdc8cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Population\Entities">
+      <UniqueIdentifier>{b4ba0581-3da9-4e9b-9503-ca23fe7a462c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfmlCity.cpp">
@@ -30,6 +36,15 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Population\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Population.cpp">
+      <Filter>Source Files\Population</Filter>
+    </ClCompile>
+    <ClCompile Include="Person.cpp">
+      <Filter>Source Files\Population\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="City.h">
@@ -40,6 +55,15 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Source Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Source Files\Population\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Population.h">
+      <Filter>Source Files\Population</Filter>
+    </ClInclude>
+    <ClInclude Include="Person.h">
+      <Filter>Source Files\Population\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
