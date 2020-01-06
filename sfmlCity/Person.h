@@ -4,6 +4,7 @@ class Person: public Entity
 {
 public:
 	//Constructors/destructor
+	Person(float x, float y, sf::Texture* texture);
 	Person(); 
 	~Person(); 
 	
@@ -14,10 +15,7 @@ public:
 	void setLocation(sf::Vector2f location); 
 
 	//inherited from entity
-	virtual void move(const float& dt, const float x, const float y); 
-	virtual void update(const float& dt); 
-	virtual void render(sf::RenderTarget* target); 
-	virtual void createSprite(sf::Texture* texture); 
+	
 
 private: 
 	std::string name; 
@@ -25,6 +23,7 @@ private:
 	float movementSpeed = 100.f; 
 	//init functions
 	void initVariables(); 
+	void initComponents(); 
 	
 };
 

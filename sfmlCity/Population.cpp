@@ -1,20 +1,42 @@
 #include "Population.h"
 
-Population::Population()
-{
-	level = 0; 
-	target = nullptr; 
-}
-
 Population::Population(const int* level, sf::RenderTarget* window)
 {
 	this->level = level; 
 	this->target = window; 
-	
+
+	try {
+		setUpPlayer();
+	}
+	catch (const char* msg)
+	{
+		std::cerr << msg << std::endl;
+	}
 }
+
+Population::Population()
+{
+	std::cout << "default constructor" << std::endl; 
+}
+
+
 
 Population::~Population()
 {
+
+}
+
+void Population::setUpPlayer()
+{
+	if (!texture.loadFromFile("Textures/Player/DinoSprites - vita.png") ) 
+	{
+		throw("Can't find texture");
+	}
+	else
+	{
+		Robert = Person(50.f, 50.f, &texture); 
+	}
+
 
 }
 

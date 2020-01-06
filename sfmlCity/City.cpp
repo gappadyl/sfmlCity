@@ -16,7 +16,7 @@ void City::initView()
 	this->tileLength = 32; 
 	
 	camera = Camera(this->window, widthMap, heightMap, tileLength); //initialize camera object
-	
+	camera.ratioUpdate(window->getSize().x, window->getSize().y); 
 	
 }
 void City::initPopulation()

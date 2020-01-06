@@ -8,8 +8,9 @@ class Population
 
 
 public:
-	Population(); 
+	//Constructor / Destructor
 	Population(const int* level, sf::RenderTarget* window); 
+	Population();
 	~Population(); 
 
 	//Functions
@@ -23,12 +24,13 @@ public:
 private:
 	//Variables
 	Person Robert; 
+	sf::Texture texture; 
 	//std::vector<Entity> population; 
 	//float *happiness; 
 	sf::RenderTarget* target; 
 	const int* level; 
 
-
 	//Functions
+	void setUpPlayer(); 
 };
 

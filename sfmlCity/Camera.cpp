@@ -32,6 +32,8 @@ Camera::~Camera()
 
 }
 
+//Functions
+
 void Camera::SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus)
 {
 	if (cameraEvent.type == sf::Event::MouseWheelMoved && hasFocus==true)
@@ -190,7 +192,11 @@ void Camera::cameraKeyEvents()//all key events for camera
 	this->mousePos = sf::Mouse::getPosition(); //dragged position
 }
 
-
+void Camera::ratioUpdate(const float width, const float height)
+{
+	sf::View* cam = getCamera(); 
+	*cam = correctRatioView(camera, width, height); 
+}
 void Camera::cameraUpdate(float dt, bool hasFocus)//update
 {
 	this->dt = dt; 

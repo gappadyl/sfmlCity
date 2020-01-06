@@ -13,11 +13,12 @@ public:
 	//variables
 
 
-	//functions
+	//Functions
 	void cameraUpdate(float dt, bool hasFocus);
 	void SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus);
 	void cameraRender(); 
 	void boundsControl(sf::View* Camera, sf::View oldCamera);
+	void ratioUpdate(const float width, const float height);
 	sf::View* getCamera(); 
 	sf::View getOldCamera(); 
 	

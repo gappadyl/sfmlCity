@@ -18,8 +18,7 @@ Entity::~Entity()
 {
 	std::cout << sprite << std::endl; 
 	
-	delete this->sprite; //Error!!!! It appears that the destructor is being called multiple times(I don't know where it's losing and regaining scope?) it seems to 
-	//try and delete the sprite multiple times causing a memory error. Dylan please figure out why the destructors being called multiple times. This is fustrating.
+	delete this->sprite;
 	
 	std::cout << "called destructor" << std::endl;
 }

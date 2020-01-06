@@ -9,10 +9,12 @@
 class Entity
 {//Base class for any Entitys
 private:
-
+	
 protected:
-	sf::RectangleShape shape; 
+	sf::Sprite* sprite; 
+	sf::Texture* texture; 
 
+	float moveSpeed; 
 
 
 public:
@@ -23,6 +25,8 @@ public:
 	virtual void update(const float& dt); 
 	virtual void render(sf::RenderTarget* target); 
 	virtual void createSprite(sf::Texture* texture); 
+	virtual void initVariables(); 
+	virtual void setPosition(const float x, const float y);
 
 
 };
