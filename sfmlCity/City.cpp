@@ -21,7 +21,14 @@ void City::initView()
 }
 void City::initPopulation()
 {
-	this->population = Population( (this->level), this->window); 
+	//initializing texture
+	sf::Texture temp;
+	temp.loadFromFile("Textures/Player/DinoSprites - vita.png");
+	this->textures["PLAYER_IDLE"] = temp;
+
+	this->population = new Population( (this->level), this->window, textures); 
+
+	 
 }
 
 bool City::initTileMap()
@@ -33,7 +40,8 @@ bool City::initTileMap()
 		return 1; 
 }
 
-//constructor/destructor
+
+//Constructors/Destructors
 City::City()
 {
 
@@ -55,7 +63,9 @@ City::City()
 
 City::~City()
 {
+	delete this->population; 
 	delete this->window; 
+
 }
 
 //Functions
@@ -102,7 +112,7 @@ void City::update()
 	
 	this->camera.cameraUpdate(dt, bHasFocus); //camera update
 	this->updateSFMLEvents(); //SFML Event
-	this->population.updatePopulation(dt); 
+	this->population->updatePopulation(dt); 
 
 	this->camera.boundsControl((camera.getCamera() ), camera.getOldCamera());//bounds check post movement
 
@@ -115,7 +125,7 @@ void City::render()
 
 	//draws
 	this->drawTileMap(); 
-	this->population.renderPopulation(); 
+	this->population->renderPopulation(); 
 	//sets window view to camera
 	this->camera.cameraRender();
 	//displays the window

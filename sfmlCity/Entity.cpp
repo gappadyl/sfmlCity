@@ -3,7 +3,7 @@
 //initialization
 void Entity::initVariables()
 {
-	this->texture = NULL;
+	
 	this->sprite = NULL;
 	this->moveSpeed = 100.f;
 }
@@ -64,15 +64,12 @@ void Entity::render(sf::RenderTarget* target)
 		target->draw(*this->sprite);
 }
 
-void Entity::createSprite(sf::Texture* texture)
+void Entity::createSprite(sf::Texture texture)
 {
 	this->texture = texture;
-	this->sprite = new sf::Sprite(*this->texture);
+	this->sprite = new sf::Sprite(this->texture);
 
-	if (texture == NULL)
-	{
-		throw("error texture is missing");
-	}
+	
 }
 
 void Entity::setPosition(const float x, const float y)

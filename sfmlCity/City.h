@@ -23,10 +23,11 @@ private:
 	//Variables
 	sf::RenderWindow *window; 
 	sf::Event sfEvent; 
-	Camera camera; 
+	Camera camera; //camera object
 	sf::Clock dtClock;
 	tileMap map;
-	Population population; 
+	Population* population; 
+	std::map<std::string, sf::Texture> textures; 
 
 	float dt;
 	unsigned int heightMap; 

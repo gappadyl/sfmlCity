@@ -9,7 +9,7 @@ class Population
 
 public:
 	//Constructor / Destructor
-	Population(const int* level, sf::RenderTarget* window); 
+	Population(const int* level, sf::RenderTarget* window, std::map<std::string, sf::Texture> textures ); 
 	Population();
 	~Population(); 
 
@@ -23,14 +23,12 @@ public:
 
 private:
 	//Variables
-	Person Robert; 
-	sf::Texture texture; 
-	//std::vector<Entity> population; 
-	//float *happiness; 
+	Person* Robert;  
 	sf::RenderTarget* target; 
 	const int* level; 
+	std::map<std::string, sf::Texture> textures; 
 
 	//Functions
-	void setUpPlayer(); 
+	void setUpPlayer(std::map<std::string, sf::Texture> textures); 
 };
 
