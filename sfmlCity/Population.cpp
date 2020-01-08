@@ -21,17 +21,18 @@ Population::Population()
 Population::~Population()
 {
 	delete this->Robert; 
-	std::cout << "hey" << std::endl; 
+	
 	 
 }
 
 //initializer Functions
-void Population::setUpPlayer(std::map<std::string, sf::Texture> textures)
+void Population::setUpPlayer(std::map<std::string, sf::Texture>& textures)
 {
 
-		this->Robert = new Person(50.f, 50.f, &textures["PLAYER_IDLE"] ); 
+		this->Robert = new Person(50.f, 50.f, textures["PLAYER_IDLE"] ); 
 
 }
+
 //Functions
 void Population::updatePopulation(float& dt)
 {

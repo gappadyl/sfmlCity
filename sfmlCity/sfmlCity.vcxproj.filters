@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Population\Entities">
       <UniqueIdentifier>{b4ba0581-3da9-4e9b-9503-ca23fe7a462c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Population\Entities\Components">
+      <UniqueIdentifier>{e00b32cf-6a6c-4891-90b6-1d1f801591ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfmlCity.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="Person.cpp">
       <Filter>Source Files\Population\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="City.h">
@@ -64,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="Person.h">
       <Filter>Source Files\Population\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

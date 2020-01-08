@@ -160,6 +160,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="City.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Population.cpp" />
     <ClCompile Include="sfmlCity.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="City.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="tileMap.h" />

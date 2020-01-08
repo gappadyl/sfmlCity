@@ -4,7 +4,7 @@ class Person: public Entity
 {
 public:
 	//Constructors/destructor
-	Person(float x, float y, sf::Texture* texture);
+	Person(float x, float y, sf::Texture& texture);
 	Person(); 
 	~Person(); 
 	

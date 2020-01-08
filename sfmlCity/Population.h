@@ -29,6 +29,6 @@ private:
 	std::map<std::string, sf::Texture> textures; 
 
 	//Functions
-	void setUpPlayer(std::map<std::string, sf::Texture> textures); 
+	void setUpPlayer(std::map<std::string, sf::Texture>& textures); 
 };
 

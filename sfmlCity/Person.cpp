@@ -7,17 +7,17 @@ void Person::initVariables()
 }
 void Person::initComponents()
 {
-	
+	this->CreateMovementComponent(100.f, 20.f, 2.f); 
 }
 
 //Constructors/Destructors
-Person::Person(float x, float y, sf::Texture* texture)
+Person::Person(float x, float y, sf::Texture& texture)
 {
 	initVariables(); 
 	initComponents(); 
 
 	try {
-		this->createSprite(*texture);
+		this->setTexture(texture);
 		this->setPosition(x, y);
 	}
 	catch (const char* msg)

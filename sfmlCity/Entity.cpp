@@ -1,12 +1,28 @@
-#include "Entity.h"
 
+#include "Entity.h"
 //initialization
 void Entity::initVariables()
 {
-	
-	this->sprite = NULL;
-	this->moveSpeed = 100.f;
+	this->movementComponent = NULL; 
 }
+
+void Entity::setTexture(sf::Texture& texture)
+{
+	
+	this->sprite.setTexture(texture); 
+
+}
+
+void Entity::setPosition(const float x, const float y)
+{
+		sprite.setPosition(sf::Vector2f(x, y));
+}
+
+void Entity::CreateMovementComponent(const float maxSpeed, const float acceleration, const float deceleration)
+{
+	this->movementComponent = new MovementComponent(maxSpeed, sprite, acceleration, deceleration); 
+}
+
 
 //Constructor/Destructor
 Entity::Entity()
@@ -16,37 +32,47 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	std::cout << sprite << std::endl; 
+	 
+	delete this->movementComponent; 
 	
-	delete this->sprite; //Error!!!! It appears that the destructor is being called multiple times(I don't know where it's losing and regaining scope?) it seems to 
-	//try and delete the sprite multiple times causing a memory error. Dylan please figure out why the destructors being called multiple times. This is fustrating.
-	
-	std::cout << "called destructor" << std::endl;
 }
 
 //Functions
 void Entity::move(const float& dt, const float x, const float y)
 {
-	this->sprite->move(x * dt * moveSpeed, y * dt * moveSpeed);
+
+	if ( this->movementComponent)
+	{
+		this->movementComponent->move(x, y, dt); 
+		
+	}
 }
 
 void Entity::update(const float& dt)
 {
+	
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) )
+	{
+		move(dt, 0.f, -1.f);
+		
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		this->move(dt, -1.f, 0);
+		move(dt,-1.f, 0);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		this->move(dt, 0, 1.f);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		this->move(dt, 0, -1.f);
+		move(dt, 0.f, 1.f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		this->move(dt, 1.f, 0);
+		move(dt, 1.f, 0.f);
+	}
+
+	if (movementComponent)
+	{
+		movementComponent->update(dt);
 	}
 }
 
@@ -56,29 +82,11 @@ void Entity::render(sf::RenderTarget* target)
 	{
 		throw("error RenderTarget not found");
 	}
-	else if (sprite == NULL)
-	{
-		throw("error Sprite is NULL"); 
-	}
 	else
-		target->draw(*this->sprite);
+		target->draw(this->sprite);
 }
 
-void Entity::createSprite(sf::Texture texture)
-{
-	this->texture = texture;
-	this->sprite = new sf::Sprite(this->texture);
 
-	
-}
 
-void Entity::setPosition(const float x, const float y)
-{
-	if (sprite == NULL)
-	{
-		throw ("sprite is NULL"); 
-	}
-	else
-	sprite->setPosition(sf::Vector2f(x, y)); 
-}
+
 
