@@ -4,7 +4,7 @@ class Person: public Entity
 {
 public:
 	//Constructors/destructor
-	Person(float x, float y, sf::Texture& texture);
+	Person(float x, float y, sf::Texture& texture_sheet);
 	Person(); 
 	~Person(); 
 	
@@ -30,7 +30,7 @@ private:
 
 	//init functions
 	void initVariables(); 
-	void initComponents(); 
+	//void initComponents(sf::Texture& texture_sheet); 
 	
 };
 

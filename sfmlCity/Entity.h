@@ -1,6 +1,6 @@
 #pragma once
 #include "MovementComponent.h"
-
+#include "AnimationComponent.h"
 class Entity
 {//Base class for any Entitys
 private:
@@ -9,6 +9,7 @@ protected:
 	//Variables
 	sf::Sprite sprite; 
 	MovementComponent* movementComponent; 
+	AnimationComponent* animationComponent; 
 
 
 public:
@@ -26,6 +27,7 @@ public:
 	virtual void setTexture(sf::Texture& texture);
 	virtual void initVariables();
 	virtual void CreateMovementComponent(const float maxSpeedconst, const float acceleration, const float deceleration);
+	virtual void CreateAnimationComponent(sf::Sprite& sprite, sf::Texture& textureSheet); 
 	
 
 

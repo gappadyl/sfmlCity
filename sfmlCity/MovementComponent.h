@@ -17,7 +17,7 @@ public:
 	void update(const float& dt); 
 	void move(const float x, const float y, const float& dt);
 	void setCurrentVelocity(const float x, const float y, const float& dt);
-
+	
 	//Acessors
 	sf::Vector2f getVelocity()const; 
 

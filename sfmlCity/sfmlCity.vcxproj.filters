@@ -49,7 +49,10 @@
       <Filter>Source Files\Population\Entities</Filter>
     </ClCompile>
     <ClCompile Include="MovementComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>Source Files\Population\Entities\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +75,10 @@
       <Filter>Source Files\Population\Entities</Filter>
     </ClInclude>
     <ClInclude Include="MovementComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>Source Files\Population\Entities\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

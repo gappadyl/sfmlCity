@@ -21,48 +21,10 @@ void MovementComponent::move(const float x, const float y, const float& dt)
 }
 
 void MovementComponent::setCurrentVelocity(const float dir_x, const float dir_y, const float& dt)
-{//accelerating sprite
-	if (velocity.x > 0.f) //check if moving right
-	{
-		if (this->velocity.x > maxVelocity)
-		{
-			this->velocity.x = maxVelocity;
-		}
-		
-	}
-	else if (velocity.x < 0.f)// check moving left
-	{
-		if (velocity.x < -maxVelocity)
-		{
-			velocity.x = -maxVelocity; 
-		}
-
-	}
-	else
-	{
-		this->velocity.x += acceleration * dir_x;
-	}
-
-	if (velocity.y > 0.f) //check moving down
-	{
-		if (this->velocity.y > maxVelocity)
-		{
-			this->velocity.y = maxVelocity;
-		}
-
-	}
-	else if (velocity.y < 0.f)// check moving up
-	{
-		if (velocity.y < -maxVelocity)
-		{
-			velocity.y = -maxVelocity;
-		}
-
-	}
-	else
-	{
-		this->velocity.y += acceleration * dir_y ;
-	}
+{//accelerates sprite
+	
+	this->velocity.x += acceleration * dir_x; 
+	this->velocity.y += acceleration * dir_y; 
 
 }
 
@@ -78,18 +40,59 @@ void MovementComponent::manualControl()
 
 void MovementComponent::update(const float& dt)
 {
-	//Deceleration
+	/*Decelerates velocity and checks maxSpeed */
 	if (velocity.x > 0)
 	{
-		velocity.x -= deceleration*dt; 
+		//Deceleration
+		velocity.x -= deceleration; 
 		if (velocity.x < 0.f)
 			velocity.x = 0.f; 
+		//check maxVelocity
+		if (this->velocity.x > maxVelocity)
+		{
+			this->velocity.x = maxVelocity;
+		}
 	}
 	else if (velocity.x < 0)
 	{
-		velocity.x += deceleration*dt; 
+		//Deceleration
+		velocity.x += deceleration; 
 		if (velocity.x > 0)
 			velocity.x = 0; 
+		//check maxVelocity
+		if (velocity.x < -maxVelocity)
+		{
+			velocity.x = -maxVelocity;
+		}
 	}
+	 
+	if (velocity.y > 0)
+	{
+		//Deceleration
+		velocity.y -= deceleration; 
+		if (velocity.y < 0)
+			velocity.y = 0; 
+
+		//check maxVelocity
+		if (this->velocity.y > maxVelocity)
+		{
+			this->velocity.y = maxVelocity;
+		}
+
+	}
+	else if (velocity.y < 0)
+	{
+		//Deceleration
+		velocity.y += deceleration; 
+		if (velocity.y > 0)
+			velocity.y = 0;
+
+		//check maxVelocity
+		if (velocity.y < -maxVelocity)
+		{
+			velocity.y = -maxVelocity;
+		}
+	}
+
 	sprite.move(velocity * dt); 
 }

@@ -22,6 +22,11 @@ void Entity::CreateMovementComponent(const float maxSpeed, const float accelerat
 {
 	this->movementComponent = new MovementComponent(maxSpeed, sprite, acceleration, deceleration); 
 }
+void Entity::CreateAnimationComponent(sf::Sprite& sprite, sf::Texture& texture_sheet) {
+
+	this->animationComponent = new AnimationComponent(sprite, texture_sheet); 
+
+}
 
 
 //Constructor/Destructor
@@ -34,6 +39,7 @@ Entity::~Entity()
 {
 	 
 	delete this->movementComponent; 
+	delete this->animationComponent; 
 	
 }
 
