@@ -17,10 +17,10 @@ public:
 	void update(const float& dt); 
 	void move(const float x, const float y, const float& dt);
 	void setCurrentVelocity(const float x, const float y, const float& dt);
-	
+	void setCurrentDirection(const float x, const float y); 
 	//Acessors
 	sf::Vector2f getVelocity()const; 
-
+	sf::Vector2f getDirection()const; 
 	//Variables
 
 private:
@@ -33,5 +33,6 @@ private:
 	float acceleration; 
 	float deceleration; 
 	sf::Vector2f velocity; 
+	sf::Vector2f direction; 
 };
 

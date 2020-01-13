@@ -9,7 +9,8 @@ public:
 	~Person(); 
 	
 	//Functions
-
+	void update(const float& dt); 
+	
 	//Accesors
 	std::string getName();
 	sf::Vector2f getLocation(); 
@@ -27,7 +28,7 @@ private:
 	sf::Vector2f location; 
 	float movementSpeed = 100.f; 
 
-
+	
 	//init functions
 	void initVariables(); 
 	//void initComponents(sf::Texture& texture_sheet); 

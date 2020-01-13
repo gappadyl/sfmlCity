@@ -7,6 +7,7 @@
 #include"SFML/Graphics.hpp"
 #include"SFML/Audio.hpp"
 #include"SFML/Network.hpp"
+#include <math.h>
 class AnimationComponent//Handles animations
 {
 public:
@@ -49,35 +50,39 @@ private:
 		Animation(sf::Sprite& sprite, sf::Texture& textureSheet,
 			float animation_timer, 
 			int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height)
-			:sprite(sprite), textureSheet(textureSheet), animationTimer(animation_timer), textureHeight(height), textureWidth(width)
+			:sprite(sprite), textureSheet(textureSheet), animationTimer(animation_timer), textureHeight(height), textureWidth(width), timer(0.f)
 		{
-			this->timer = 0.f; 
+			 
+			std::cout << this->timer << std::endl;
 			//initializes all three Rects
-			this->startRect = sf::IntRect(start_frame_x*width, start_frame_y*height, width, height); //rectangle of first frame of animation
-			this->endRect = sf::IntRect(frames_x* width, frames_y * height, width, height);  //rectangle of last frame of animation
-			this->currentRect = this->startRect; //
+			this->startRect = sf::IntRect(start_frame_x*abs(width), start_frame_y*height, width, height); //rectangle of first frame of animation
+			this->endRect = sf::IntRect(frames_x* abs(width), frames_y * height, width, height);  //rectangle of last frame of animation
+			this->currentRect = this->startRect; 
+			
 			//Sets sprites texture and Rect spot in texture
 			this->sprite.setTexture(this->textureSheet, true); 
 			this->sprite.setTextureRect(this->startRect); 
+			
 		}
 		
 		void play(const float& dt)
 		{//updates texture of sprite
-
+			
 			//Update timer
-			this->timer = 10.f * dt; 
+			timer += 10.f * dt; 
 
 			if (this->timer >= this->animationTimer)
 			{
 				//reset timer
 				this->timer = 0.f;
 
-				if (this->currentRect != this->endRect)//checks if end of animation
+				if (this->currentRect.left != this->endRect.left)//checks if end of animation
 				{
-					this->currentRect.left += this->textureWidth; //moves animation to left
+					this->currentRect.left += abs(this->textureWidth); //moves animation to left
 				}
 				else
 				{
+					std::cout << "end of animation" << std::endl; 
 					this->currentRect.left = this->startRect.left; //resets current Rect
 					
 				}

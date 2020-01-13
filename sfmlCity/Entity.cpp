@@ -22,12 +22,46 @@ void Entity::CreateMovementComponent(const float maxSpeed, const float accelerat
 {
 	this->movementComponent = new MovementComponent(maxSpeed, sprite, acceleration, deceleration); 
 }
-void Entity::CreateAnimationComponent(sf::Sprite& sprite, sf::Texture& texture_sheet) {
 
-	this->animationComponent = new AnimationComponent(sprite, texture_sheet); 
+void Entity::CreateAnimationComponent( sf::Texture& texture_sheet) {
+
+	this->animationComponent = new AnimationComponent(this->sprite, texture_sheet); 
 
 }
 
+
+void Entity::physicsAnimationCheck(const float& dt)
+{
+	sf::Vector2f velocity; 
+	sf::Vector2f direction; 
+	if (movementComponent )
+	{
+		velocity = movementComponent->getVelocity(); 
+		direction = movementComponent->getDirection(); 
+		if (velocity == sf::Vector2f(0, 0)) //if not moving
+		{
+			if (direction.x > 0)
+			{
+				this->animationComponent->play(dt, "PLAYER_IDLE_RIGHT"); 
+			}
+			else
+			{
+				this->animationComponent->play(dt, "PLAYER_IDLE_LEFT");
+			}
+		}
+		else //if moving
+		{
+			if (direction.x > 0)
+			{
+				this->animationComponent->play(dt, "PLAYER_RUN_RIGHT");
+			}
+			else if(direction.x < 0)
+			{
+				this->animationComponent->play(dt, "PLAYER_RUN_LEFT"); 
+			}
+		}
+	}
+}
 
 //Constructor/Destructor
 Entity::Entity()
@@ -52,6 +86,37 @@ void Entity::move(const float& dt, const float x, const float y)
 		this->movementComponent->move(x, y, dt); 
 		
 	}
+}
+
+void Entity::checkDirection()
+{
+	if (movementComponent)
+	{
+		sf::Vector2f direction = this->movementComponent->getDirection();
+
+		if (direction.x > 0)
+		{
+			std::cout << "Facing Right" << std::endl; 
+
+		}
+		else if (direction.x < 0)
+		{
+			std::cout << "Facing Left" << std::endl; 
+		}
+
+		if (direction.y > 0)
+		{
+			std::cout << "Facing down" << std::endl; 
+		}
+		else if (direction.y < 0)
+		{
+			std::cout << "Facing up" << std::endl; 
+		}
+		
+		
+	}
+	
+
 }
 
 void Entity::update(const float& dt)
@@ -79,7 +144,9 @@ void Entity::update(const float& dt)
 	if (movementComponent)
 	{
 		movementComponent->update(dt);
+		//checkDirection();
 	}
+	 
 }
 
 void Entity::render(sf::RenderTarget* target)

@@ -14,7 +14,6 @@ Person::Person(float x, float y, sf::Texture& texture_sheet)
 	initVariables(); 
 
 	try {
-		this->setTexture(texture_sheet);
 		this->setPosition(x, y);
 	}
 	catch (const char* msg)
@@ -23,8 +22,14 @@ Person::Person(float x, float y, sf::Texture& texture_sheet)
 	}
 
 	this->CreateMovementComponent(100.f, 20.f, 0.5f);
-	this->CreateAnimationComponent(this->sprite, texture_sheet);
-	this->animationComponent->addAnimation("PLAYER_IDLE", 100.f, 1, 1, 4, 1, 24, 24); 
+	this->CreateAnimationComponent(texture_sheet);
+
+	this->animationComponent->addAnimation("PLAYER_IDLE_RIGHT", 2.f, 0, 0, 3, 1, 24, 24); 
+	this->animationComponent->addAnimation("PLAYER_IDLE_LEFT", 2.f, 1, 0, 4, 1, -24, 24); 
+	this->animationComponent->addAnimation("PLAYER_RUN_RIGHT", 1.f, 4, 0, 9, 1, 24, 24); 
+	this->animationComponent->addAnimation("PLAYER_RUN_LEFT", 1.f, 5, 0, 9, 1, -24, 24); 
+
+
 }
 Person::Person()
 {
@@ -33,6 +38,13 @@ Person::Person()
 Person::~Person()
 {
 	 
+}
+//Functions
+void Person::update(const float& dt)
+{
+	Entity::update(dt); 
+
+	this->physicsAnimationCheck(dt); 
 }
 //Accesor Func
 std::string Person::getName()
