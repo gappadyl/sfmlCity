@@ -161,21 +161,29 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="City.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="HitBoxComponent.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Population.cpp" />
+    <ClCompile Include="RegularTile.cpp" />
     <ClCompile Include="sfmlCity.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="tileMap.cpp" />
+    <ClCompile Include="TileMapLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="City.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="HitBoxComponent.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Population.h" />
+    <ClInclude Include="RegularTile.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="tileMap.h" />
+    <ClInclude Include="TileMapLevel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

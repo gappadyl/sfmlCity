@@ -52,8 +52,6 @@ private:
 			int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height)
 			:sprite(sprite), textureSheet(textureSheet), animationTimer(animation_timer), textureHeight(height), textureWidth(width), timer(0.f)
 		{
-			 
-			std::cout << this->timer << std::endl;
 			//initializes all three Rects
 			this->startRect = sf::IntRect(start_frame_x*abs(width), start_frame_y*height, width, height); //rectangle of first frame of animation
 			this->endRect = sf::IntRect(frames_x* abs(width), frames_y * height, width, height);  //rectangle of last frame of animation

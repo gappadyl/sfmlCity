@@ -16,16 +16,20 @@ public:
 	//Functions
 	void update(const float& dt); 
 	void move(const float x, const float y, const float& dt);
-	void setCurrentVelocity(const float x, const float y, const float& dt);
-	void setCurrentDirection(const float x, const float y); 
+	
+	 
 	//Acessors
 	sf::Vector2f getVelocity()const; 
 	sf::Vector2f getDirection()const; 
+	//Mutators
+	void setVelocity(float x, float y); 
 	//Variables
 
 private:
 	//Functions
 	void manualControl();
+	void setCurrentVelocity(const float x, const float y, const float& dt);
+	void setCurrentDirection(const float x, const float y);
 
 	//Variables
 	sf::Sprite& sprite; 

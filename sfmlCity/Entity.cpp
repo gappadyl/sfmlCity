@@ -3,7 +3,10 @@
 //initialization
 void Entity::initVariables()
 {
+
 	this->movementComponent = NULL; 
+	this->animationComponent = NULL; 
+	this->hitBoxComponent = NULL; 
 }
 
 void Entity::setTexture(sf::Texture& texture)
@@ -29,24 +32,32 @@ void Entity::CreateAnimationComponent( sf::Texture& texture_sheet) {
 
 }
 
+void Entity::CreateHitBoxComponent(sf::Sprite& sprite, float offsetX, float offsetY)
+{
+	std::cout << this->sprite.getGlobalBounds().width << std::endl; 
+	this->hitBoxComponent = new HitBoxComponent(sprite,offsetX,offsetY,sprite.getGlobalBounds().width,sprite.getGlobalBounds().height); //sprite, offsetX, offsetY, width, height [MAYBE SOME WAY to ACCES
+}
+
 
 void Entity::physicsAnimationCheck(const float& dt)
 {
 	sf::Vector2f velocity; 
-	sf::Vector2f direction; 
+	sf::Vector2f direction;
+
 	if (movementComponent )
 	{
 		velocity = movementComponent->getVelocity(); 
 		direction = movementComponent->getDirection(); 
+
 		if (velocity == sf::Vector2f(0, 0)) //if not moving
 		{
-			if (direction.x > 0)
+			if (direction.x < 0)
 			{
-				this->animationComponent->play(dt, "PLAYER_IDLE_RIGHT"); 
+				this->animationComponent->play(dt, "PLAYER_IDLE_LEFT"); 
 			}
 			else
 			{
-				this->animationComponent->play(dt, "PLAYER_IDLE_LEFT");
+				this->animationComponent->play(dt, "PLAYER_IDLE_RIGHT");
 			}
 		}
 		else //if moving
@@ -74,6 +85,7 @@ Entity::~Entity()
 	 
 	delete this->movementComponent; 
 	delete this->animationComponent; 
+	delete this->hitBoxComponent; 
 	
 }
 
@@ -88,7 +100,7 @@ void Entity::move(const float& dt, const float x, const float y)
 	}
 }
 
-void Entity::checkDirection()
+void Entity::checkDirection()//testing direction
 {
 	if (movementComponent)
 	{
@@ -144,6 +156,8 @@ void Entity::update(const float& dt)
 	if (movementComponent)
 	{
 		movementComponent->update(dt);
+		hitBoxComponent->update();
+	
 		//checkDirection();
 	}
 	 
@@ -157,9 +171,42 @@ void Entity::render(sf::RenderTarget* target)
 	}
 	else
 		target->draw(this->sprite);
+	if(hitBoxComponent)
+	hitBoxComponent->render(*target); 
 }
 
+//Accesors
+sf::RectangleShape Entity::getHitBox()const
+{
+	if (hitBoxComponent)
+	{
+		return this->hitBoxComponent->getRect();
+	}
+	else
+	{
+		return sf::RectangleShape();
+	}
+}
 
+sf::Vector2f Entity::getHitBoxDimensions()const
+{
+	return sf::Vector2f(this->hitBoxComponent->getRect().getGlobalBounds().width, this->hitBoxComponent->getRect().getGlobalBounds().height); 
+}
 
+//Mutators
 
+void Entity::setPosition(sf::Vector2f position)
+{
+	this->sprite.setPosition(position.x, position.y); 
+	
+}
 
+void Entity::stopVelocityX()
+{
+	movementComponent->setVelocity(0.f, movementComponent->getVelocity().y); 
+}
+
+void Entity::stopVelocityY()
+{
+	movementComponent->setVelocity( movementComponent->getVelocity().x, 0.f);
+}

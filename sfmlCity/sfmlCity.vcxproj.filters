@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Population\Entities\Components">
       <UniqueIdentifier>{e00b32cf-6a6c-4891-90b6-1d1f801591ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TileMap">
+      <UniqueIdentifier>{1c5246fc-eaaa-4203-b095-680f2c67b01b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TileMap\Tiles">
+      <UniqueIdentifier>{b5ffa96c-e095-4786-8c72-bbfd840857df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfmlCity.cpp">
@@ -54,6 +60,18 @@
     <ClCompile Include="AnimationComponent.cpp">
       <Filter>Source Files\Population\Entities\Components</Filter>
     </ClCompile>
+    <ClCompile Include="HitBoxComponent.cpp">
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\TileMap\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="RegularTile.cpp">
+      <Filter>Source Files\TileMap\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapLevel.cpp">
+      <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="City.h">
@@ -79,6 +97,18 @@
     </ClInclude>
     <ClInclude Include="AnimationComponent.h">
       <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HitBoxComponent.h">
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Source Files\TileMap\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="RegularTile.h">
+      <Filter>Source Files\TileMap\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapLevel.h">
+      <Filter>Source Files\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -47,7 +47,7 @@ City::City()
 
 	this->initWindow(); //initializes the window
 	this->initView(); // initializes camera
-
+	this->levelMap = new TileMapLevel("test.txt"); 
 	try { //loads the tile map textures and positions
 		this->initTileMap();
 	}
@@ -124,7 +124,8 @@ void City::render()
 	this->window->clear();
 
 	//draws
-	this->drawTileMap(); 
+	//this->drawTileMap(); 
+	levelMap->render(*window); 
 	this->population->renderPopulation(); 
 	//sets window view to camera
 	this->camera.cameraRender();

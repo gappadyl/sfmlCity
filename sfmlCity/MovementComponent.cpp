@@ -3,7 +3,7 @@
 //Constructor/destructor
 MovementComponent::MovementComponent(const float maxVelocity, sf::Sprite& sprite, float acceleration, float deceleration):sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration)
 {
-	direction.x = -1; //set a initial direction for character
+	direction.x = 1; //set a initial direction for character
 }
 
 MovementComponent::~MovementComponent()
@@ -50,6 +50,12 @@ sf::Vector2f MovementComponent::getDirection() const
 void MovementComponent::manualControl()
 {
 	
+}
+
+void MovementComponent::setVelocity(float x, float y)
+{
+	this->velocity.x = x;
+	this->velocity.y = y; 
 }
 
 void MovementComponent::update(const float& dt)

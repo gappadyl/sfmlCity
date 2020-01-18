@@ -4,7 +4,7 @@
 #include "tileMap.h"
 #include "Camera.h"
 #include "Population.h"
-
+#include "TilemapLevel.h"
 
 
 class City
@@ -22,6 +22,7 @@ private:
 
 	//Variables
 	sf::RenderWindow *window; 
+	TileMapLevel* levelMap; 
 	sf::Event sfEvent; 
 	Camera camera; //camera object
 	sf::Clock dtClock;
