@@ -17,6 +17,7 @@ public:
 	void updatePopulation(float& dt);
 	void renderPopulation(); 
 	float getHappy(); 
+	Person* getPlayer()const; 
 	//Variables
 	
 

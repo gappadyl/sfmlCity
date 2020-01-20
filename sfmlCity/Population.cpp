@@ -56,3 +56,10 @@ float Population::getHappy()
 	return 0.f; 
 }
 
+Person* Population::getPlayer()const
+{
+	if (Robert)
+	{
+		return Robert;
+	}
+}

@@ -47,7 +47,8 @@ City::City()
 
 	this->initWindow(); //initializes the window
 	this->initView(); // initializes camera
-	this->levelMap = new TileMapLevel("test.txt"); 
+	this->levelMap = new TileMapLevel("test_load.txt"); 
+	this->levelMap->save_to_file("test_save.txt"); 
 	try { //loads the tile map textures and positions
 		this->initTileMap();
 	}
@@ -113,7 +114,10 @@ void City::update()
 	this->camera.cameraUpdate(dt, bHasFocus); //camera update
 	this->updateSFMLEvents(); //SFML Event
 	this->population->updatePopulation(dt); 
-
+	if (levelMap)
+	{
+		this->levelMap->gridBoarderCollisionCheck(population->getPlayer());
+	}
 	this->camera.boundsControl((camera.getCamera() ), camera.getOldCamera());//bounds check post movement
 
 }
@@ -125,7 +129,7 @@ void City::render()
 
 	//draws
 	//this->drawTileMap(); 
-	levelMap->render(*window); 
+	levelMap->render(*window, true); 
 	this->population->renderPopulation(); 
 	//sets window view to camera
 	this->camera.cameraRender();

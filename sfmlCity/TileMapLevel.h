@@ -20,7 +20,7 @@ public:
 	void gridBoarderCollisionCheck(Entity* entity); //checks if the entity give is colliding with grid
 
 	void update(); 
-	void render(sf::RenderTarget& target); //renders all of the tiles
+	void render(sf::RenderTarget& target,const bool showCollision); //renders all of the tiles
 
 	//[EDIT MODE] need to implement or think about states
 	void addTile(float cord_x, float cord_y, float cord_z,  short type =-1); 

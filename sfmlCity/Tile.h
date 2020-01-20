@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <sstream>
+
 #include"SFML/window.hpp"
 #include"SFML/System.hpp"
 #include"SFML/Graphics.hpp"
@@ -15,7 +17,7 @@ class Tile //base class for other tiles
 	
 public:
 //Constructor/Destructor
-	Tile(int grid_x, int grid_y, float gridSize, const sf::Texture texture_sheet,const sf::IntRect rect, bool collision, short type );
+	Tile(int grid_x, int grid_y, float gridSize, const sf::Texture& texture_sheet,const sf::IntRect& rect, bool collision, short type );
 	virtual ~Tile();
 
 //Functions
@@ -24,9 +26,12 @@ public:
 //Accesors
 	virtual short getType()const; 
 	virtual bool isCollidable()const; 
-	virtual sf::Vector2f getPosition()const; 
+	virtual const sf::Vector2f& getPosition()const; 
 	virtual sf::FloatRect getGlobalBounds()const; 
 	virtual bool checkCollision(const sf::FloatRect frect)const; 
+	virtual std::string getTileAsString()const =0; 
+	virtual const bool & getCollision() const = 0; 
+	
 //Variables
 
 
@@ -36,7 +41,8 @@ protected:
 	sf::Sprite tile; 
 	short type; 
 	sf::Texture texture; 
-
+	sf::IntRect rect; 
+	sf::Vector2f position; 
 
 
 

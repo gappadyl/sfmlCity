@@ -23,6 +23,7 @@ TileMapLevel::TileMapLevel(int width, int height, float gridSize, std::string te
 	fromY = 0; 
 	toY = 0; 
 
+	currentLayer = 0; 
 	//set map to appropriate size
 	resize(); 
 
@@ -43,11 +44,13 @@ TileMapLevel::TileMapLevel(const std::string file_name)//load from file
 	fromY = 0; 
 	toY = 0; 
 
+	currentLayer = 0; //starts on first layer
+
 	load_from_file(file_name); 
 
 	collisionBox.setSize(sf::Vector2f(gridSizeF, gridSizeF ) );
 	collisionBox.setFillColor(sf::Color::Transparent);
-	collisionBox.setOutlineThickness(0.1f); 
+	collisionBox.setOutlineThickness(1.f); 
 	collisionBox.setOutlineColor(sf::Color::Red); 
 	
 
@@ -65,10 +68,10 @@ void TileMapLevel::load_from_file(const std::string file)
 	std::ifstream file_in; 
 
 	file_in.open(file); 
-	std::cout << "got here" << std::endl; 
+	//std::cout << "got here" << std::endl; 
 	if (file_in.is_open())
 	{
-		std::cout << " got here too" << std::endl; 
+		
 		//map dimension
 		sf::Vector2i size; 
 		bool collision = false;
@@ -87,7 +90,7 @@ void TileMapLevel::load_from_file(const std::string file)
 
 		std::string texture_file = "";
 
-		file_in >> size.x >> size.y >> gridSize >> layers >> texture_file; //reads from a file values [size of grid , tile size , z axis, texture file]
+		file_in >> size.x >> size.y >> gridSize >> layers >> texture_file; //reads from a file values [size of map , tile size , z axis, texture file]
 		//sets tile size
 		gridSizeF = static_cast<float>(gridSize); 
 		gridSizeI = gridSize; 
@@ -112,21 +115,16 @@ void TileMapLevel::load_from_file(const std::string file)
 		{
 			if (type == Default)//check type
 			{
-				file_in >> trX >> trY >> collision; //get texture cordinates and 
+				file_in >> trX >> trY >> collision; //get texture cordinates and collision
 				
 				map[x][y][z].push_back(
 					new RegularTile(x, y, gridSizeI, texture_sheet, sf::IntRect(trX, trY, gridSizeI, gridSizeI), collision, type)
 					); //pushes a Regular Tile onto the Vector at cordinates
-				std::cout << "got to putting Regular Tiles on Map" << std::endl; 
+				 
 
 			}
 			
 		}
-
-
-
-
-		
 
 	}
 	else
@@ -138,39 +136,111 @@ void TileMapLevel::load_from_file(const std::string file)
 
 }
 
-void TileMapLevel::save_to_file(const std::string)
-{
+void TileMapLevel::save_to_file(const std::string file)
+{//Saves Tile map to file
+	// mapLength mapheight
+	//tile dimension
+	//layers
+	//texture file
 
+	// x y z type
+	//textrect x textrect y collision
+
+	std::ofstream file_out; 
+
+	file_out.open(file); 
+	//file_out.clear(); 
+
+	if (file_out.is_open())
+	{
+		file_out << maxSizeWorldGrid.x << " " << maxSizeWorldGrid.y << "\n" <<
+		 gridSizeI << "\n" << layers << "\n" <<
+		 textureFile << std::endl; 
+
+		for (int x = 0; x < map.size(); x++)
+		{
+			for (int y = 0; y < map[x].size(); y++)
+			{
+				for (int z = 0; z < map[x][y].size(); z++)
+				{
+					if (!this->map[x][y][z].empty())
+					{
+						for (size_t w = 0; w < map[x][y][z].size(); w++)
+						{
+							file_out << x << " " << y << " " << z << " " << map[x][y][z][w]->getTileAsString(); 
+						}
+					}
+				}
+			}
+		}
+	}
+
+	file_out.close(); 
 }
 
 void TileMapLevel::gridBoarderCollisionCheck(Entity* entity)
 {
 	//World bounds check
 	sf::RectangleShape hitBox = entity->getHitBox(); 
-
+	std::cout << hitBox.getPosition().x << std::endl; 
 	if (hitBox.getPosition().x + entity->getHitBoxDimensions().x > maxSizeWorldF.x)
 	{
-		entity->setPosition(sf::Vector2f(maxSizeWorldF.x, hitBox.getPosition().y));
+		
+		entity->setPosition(sf::Vector2f(maxSizeWorldF.x - entity->getHitBoxDimensions().x, hitBox.getPosition().y));
 		entity->stopVelocityX(); 
 	}
 	else if (hitBox.getPosition().x < 0)
 	{
+		
 		entity->setPosition(sf::Vector2f(0, hitBox.getPosition().y)); 
 		entity->stopVelocityX(); 
 	}
 
 	if (hitBox.getPosition().y + entity->getHitBoxDimensions().y > maxSizeWorldF.y)
 	{
-		entity->setPosition(sf::Vector2f(hitBox.getPosition().x, maxSizeWorldF.y));
-		entity->stopVelocityY(); 
+		if (hitBox.getPosition().x < 0)
+		{//fixes diagnol movement ignoring bounds
+			entity->setPosition(sf::Vector2f(0, maxSizeWorldF.y - entity->getHitBoxDimensions().y));
+			entity->stopVelocityX();
+			entity->stopVelocityY();
+		}
+		else if (hitBox.getPosition().x + entity->getHitBoxDimensions().x > maxSizeWorldF.x)
+		{
+			entity->setPosition(sf::Vector2f(maxSizeWorldF.x - entity->getHitBoxDimensions().x, maxSizeWorldF.y - entity->getHitBoxDimensions().y));
+			entity->stopVelocityX();
+			entity->stopVelocityY();
+		}
+		else
+		{
+			entity->setPosition(sf::Vector2f(hitBox.getPosition().x, maxSizeWorldF.y - entity->getHitBoxDimensions().y));
+			entity->stopVelocityY();
+		}
 
 	}
 	else if (hitBox.getPosition().y < 0)
 	{
-		entity->setPosition(sf::Vector2f(hitBox.getPosition().x, 0)); 
-		entity->stopVelocityY(); 
-	}
+		
+		if (hitBox.getPosition().x < 0)
+		{
+			entity->setPosition(sf::Vector2f(0, 0));
+			entity->stopVelocityX();
+			entity->stopVelocityY();
+		}
+		else if (hitBox.getPosition().x + entity->getHitBoxDimensions().x > maxSizeWorldF.x)
+		{
+			entity->setPosition(sf::Vector2f(maxSizeWorldF.x - entity->getHitBoxDimensions().x, 0));
+			entity->stopVelocityX();
+			entity->stopVelocityY();
+		}
+		else 
+		{
+			entity->setPosition(sf::Vector2f(hitBox.getPosition().x, 0));
+			entity->stopVelocityY();
 
+		}
+
+		
+	}
 
 	
 }
@@ -242,7 +312,7 @@ void TileMapLevel::update()
 
 }
 
-void TileMapLevel::render(sf::RenderTarget& target)
+void TileMapLevel::render(sf::RenderTarget& target, const bool showCollision)
 {//draw each tile sprite
 
 	for (int x = 0; x < map.size(); x++)
@@ -251,7 +321,17 @@ void TileMapLevel::render(sf::RenderTarget& target)
 		{
 			for (size_t w = 0; w < map[x][y][0].size(); w++)
 			{
-				map[x][y][0][w]->render(target); 
+				map[x][y][currentLayer][w]->render(target); 
+				
+				if (showCollision)
+				{
+					if (map[x][y][currentLayer][w]->getCollision()) //render collision
+					{
+						collisionBox.setPosition(map[x][y][currentLayer][w]->getPosition()); 
+						target.draw(collisionBox); 
+					}
+				}
+				
 			}
 		}
 	}
