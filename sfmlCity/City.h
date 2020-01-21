@@ -1,10 +1,10 @@
 #pragma once
 
-
 #include<iostream>
 #include "tileMap.h"
-
-
+#include "Camera.h"
+#include "Population.h"
+#include "TilemapLevel.h"
 
 
 class City
@@ -15,20 +15,22 @@ private:
 	void initWindow(); 
 	void initView();
 	bool initTileMap(); 
-	void drawTileMap(); 
-
-	bool isCameraLegal(sf::Vector2f pos, sf::Vector2f size);
-	void pollKeyEvents();
-	sf::View correctRatioView(sf::View view, int windowWidth, int windowHeight); 
+	void drawTileMap();
+	void initPopulation(); 
+	
+	
 
 	//Variables
 	sf::RenderWindow *window; 
+	TileMapLevel* levelMap; 
 	sf::Event sfEvent; 
-	sf::View camera;
+	Camera camera; //camera object
 	sf::Clock dtClock;
+	tileMap map;
+	Population* population; 
+	std::map<std::string, sf::Texture> textures; 
+
 	float dt;
-	sf::Vector2i mousepos;
-	tileMap map; 
 	unsigned int heightMap; 
 	unsigned int widthMap; 
 	unsigned int tileLength; 
@@ -65,7 +67,7 @@ public:
 	void update();
 	void render(); 
 	void run(); 
-	void boundsControl( sf::View* currentCamera, sf::View oldCamera);
+	
 	
 	
 };

@@ -1,0 +1,5 @@
+16 16
+32
+1
+Textures/background/tileset.png
+0 0 0 0 0 0 0 1 0 0 0 32 0 1

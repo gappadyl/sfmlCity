@@ -4,7 +4,6 @@
 
 #include<ctime>
 #include<cstdlib>
-
 #include"SFML/System.hpp"
 #include"SFML/window.hpp"
 #include"SFML/Graphics.hpp"

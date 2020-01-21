@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Camera">
+      <UniqueIdentifier>{3485dcfc-33ba-4336-8a6a-f1501e79b484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Population">
+      <UniqueIdentifier>{ff230c0b-72af-42c4-9bc2-552fb6bdc8cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Population\Entities">
+      <UniqueIdentifier>{b4ba0581-3da9-4e9b-9503-ca23fe7a462c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Population\Entities\Components">
+      <UniqueIdentifier>{e00b32cf-6a6c-4891-90b6-1d1f801591ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TileMap">
+      <UniqueIdentifier>{1c5246fc-eaaa-4203-b095-680f2c67b01b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TileMap\Tiles">
+      <UniqueIdentifier>{b5ffa96c-e095-4786-8c72-bbfd840857df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfmlCity.cpp">
@@ -24,6 +42,36 @@
     <ClCompile Include="tileMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Population\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Population.cpp">
+      <Filter>Source Files\Population</Filter>
+    </ClCompile>
+    <ClCompile Include="Person.cpp">
+      <Filter>Source Files\Population\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HitBoxComponent.cpp">
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\TileMap\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="RegularTile.cpp">
+      <Filter>Source Files\TileMap\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapLevel.cpp">
+      <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="City.h">
@@ -31,6 +79,36 @@
     </ClInclude>
     <ClInclude Include="tileMap.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Source Files\Population\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Population.h">
+      <Filter>Source Files\Population</Filter>
+    </ClInclude>
+    <ClInclude Include="Person.h">
+      <Filter>Source Files\Population\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HitBoxComponent.h">
+      <Filter>Source Files\Population\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Source Files\TileMap\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="RegularTile.h">
+      <Filter>Source Files\TileMap\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapLevel.h">
+      <Filter>Source Files\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
