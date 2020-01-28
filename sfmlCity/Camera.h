@@ -15,7 +15,7 @@ public:
 
 	//Functions
 	void cameraUpdate(float dt, bool hasFocus);
-	void SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus);
+	void SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus, int mode);
 	void cameraRender(); 
 	void boundsControl(sf::View* Camera, sf::View oldCamera);
 	void ratioUpdate(const float width, const float height);

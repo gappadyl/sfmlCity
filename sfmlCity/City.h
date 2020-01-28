@@ -1,61 +1,47 @@
 #pragma once
 
 #include<iostream>
-#include "tileMap.h"
-#include "Camera.h"
-#include "Population.h"
-#include "TilemapLevel.h"
+#include"GameMode.h"
+
+
+
 
 
 class City
 {
 private:
-
+	enum mode {Game=0, Editor=1};
 	//initialization func
 	void initWindow(); 
-	void initView();
-	bool initTileMap(); 
-	void drawTileMap();
+	void initView(); 
 	void initPopulation(); 
-	
+	void initModes(); 
 	
 
 	//Variables
-	sf::RenderWindow *window; 
-	TileMapLevel* levelMap; 
-	sf::Event sfEvent; 
-	Camera camera; //camera object
-	sf::Clock dtClock;
-	tileMap map;
-	Population* population; 
-	std::map<std::string, sf::Texture> textures; 
 
+	//Sf variables
+	sf::RenderWindow *window; 
+	sf::Event sfEvent; 
+	sf::Clock dtClock;
+
+	//Game Objects
+	Camera camera; //camera object
+	TileMapLevel* levelMap;
+	Population* population; 
+
+	//Resources/ information
+	std::map<std::string, sf::Texture> textures; 
 	float dt;
 	unsigned int heightMap; 
 	unsigned int widthMap; 
 	unsigned int tileLength; 
 	bool bHasFocus = true;
-
-	const int level[256]= 
-	{
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 1,
-		1, 0, 0, 0, 2, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 2, 0, 1,
-		1, 0, 0, 0, 3, 0, 2, 2, 0, 0, 0, 0, 0, 0, 2, 1,
-		1, 0, 0, 0, 3, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 3, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 1,
-		1, 0, 0, 0, 2, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 2, 0, 1,
-		1, 0, 0, 0, 3, 0, 2, 2, 0, 0, 0, 0, 0, 0, 2, 1,
-		1, 0, 0, 0, 3, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	};
-
+	
+	//Modes
+	mode currentMode; 
+	GameMode *game; 
+	
 public:
 	//constructor/destructor
 	City();

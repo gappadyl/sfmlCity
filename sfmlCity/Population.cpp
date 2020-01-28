@@ -2,9 +2,9 @@
 
 
 //Constructors/Destructors
-Population::Population(const int* level, sf::RenderTarget* window, std::map<std::string, sf::Texture> textures)
+Population::Population( sf::RenderTarget* window, std::map<std::string, sf::Texture> textures)
 {
-	this->level = level; 
+	
 	this->target = window; 
 	this->textures = textures; 
 	
@@ -14,7 +14,7 @@ Population::Population(const int* level, sf::RenderTarget* window, std::map<std:
 Population::Population()
 {
 	Robert = NULL; 
-	level = NULL; 
+	
 	target = NULL; 
 }
 

@@ -34,16 +34,30 @@ Camera::~Camera()
 
 //Functions
 
-void Camera::SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus)
+void Camera::SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus, int mode)
 {
 	if (cameraEvent.type == sf::Event::MouseWheelMoved && hasFocus==true)
 	{
+		oldCamera = camera; 
+		if (mode == 0)
+		{
 
-		if (camera.getSize().x >= 10)
-			camera.zoom(1.f - cameraEvent.mouseWheel.delta * 0.1f);
+			if (camera.getSize().x >= 32 && isCameraLegal(camera.getCenter(), camera.getSize() * (1.f - cameraEvent.mouseWheel.delta * 0.1f)))
+			{
+				camera.zoom(1.f - cameraEvent.mouseWheel.delta * 0.1f);
+			}
+		}
+		else if(mode == 1)
+		{
+			if (camera.getSize().x >= 32)
+			{
+				camera.zoom(1.f - cameraEvent.mouseWheel.delta * 0.1f); 
+			}
+		}
+		
 
-		if (camera.getSize().x < 10)
-			camera.setSize(10, 10);
+		if (camera.getSize().x < 32)
+			camera.setSize(32, 32);
 	}
 
 
@@ -76,9 +90,16 @@ void Camera::boundsControl(sf::View* currentCamera, sf::View oldCamera)//check b
 	 
 	if (!isCameraLegal(currentCamera->getCenter(), currentCamera->getSize()))
 	{
-		
-		*currentCamera = oldCamera;
+		if (!isCameraLegal(oldCamera.getCenter(), currentCamera->getSize()))
+		{
+			currentCamera->setCenter(map_Width/2 * map_PixelLength, map_Height/2 * map_PixelLength); //if Editing and camera goes out of bounds; 
+			this->camera.setSize(this->window->getSize().x / 2.f, this->window->getSize().y / 2.f);
 
+		}
+		else
+		{
+			*currentCamera = oldCamera;
+		}
 	}
 }
 

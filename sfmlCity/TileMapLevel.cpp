@@ -68,7 +68,7 @@ void TileMapLevel::load_from_file(const std::string file)
 	std::ifstream file_in; 
 
 	file_in.open(file); 
-	//std::cout << "got here" << std::endl; 
+	
 	if (file_in.is_open())
 	{
 		
@@ -149,7 +149,7 @@ void TileMapLevel::save_to_file(const std::string file)
 	std::ofstream file_out; 
 
 	file_out.open(file); 
-	//file_out.clear(); 
+	
 
 	if (file_out.is_open())
 	{
@@ -182,7 +182,7 @@ void TileMapLevel::gridBoarderCollisionCheck(Entity* entity)
 {
 	//World bounds check
 	sf::RectangleShape hitBox = entity->getHitBox(); 
-	std::cout << hitBox.getPosition().x << std::endl; 
+	
 	if (hitBox.getPosition().x + entity->getHitBoxDimensions().x > maxSizeWorldF.x)
 	{
 		
