@@ -12,7 +12,7 @@ public:
 
 	//Functions
 	virtual void update(float& dt)=0; 
-	virtual void render(sf::RenderTarget& target)=0; 
+	virtual void render(sf::RenderTarget* target)=0; 
 
 private:
 
@@ -26,7 +26,7 @@ protected:
 	
 
 	//a pointer to the dimensions so it can render the right amount of squares and control camera correctly
-	unsigned int* heightMap;
+	unsigned int* heightMap; // cannot delete, being allocated onto heap wrongly???
 	unsigned int* widthMap;
 	unsigned int* tileLength;
 	bool *hasFocus; 

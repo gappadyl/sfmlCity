@@ -10,13 +10,15 @@ GameMode::GameMode(sf::RenderWindow* window, Camera* view, Population* populatio
 
 GameMode::~GameMode()
 {
-
+	
 }
+
+
 //Functions
 void GameMode::update(float& dt)
 {
 	//GameMode Camera Controls
-	SFMLCameraEvent();//NOT WORKING
+	
 	camera->cameraUpdate(dt, hasFocus); 
 	camera->boundsControl(camera->getCamera(), camera->getOldCamera() );
 
@@ -25,34 +27,17 @@ void GameMode::update(float& dt)
 	
 	if (level)
 	{
-		level->gridBoarderCollisionCheck(population->getPlayer()); 
+		level->gridBoarderCollisionCheck(population->getPlayer()); //doesnt work
 	}
 }
 
-void GameMode::render(sf::RenderTarget& target)
+void GameMode::render(sf::RenderTarget* target)
 {
 	
-	level->render(*window, true); 
-
-	population->renderPopulation();
+	level->render(*target, true); 
+	population->renderPopulation(target);
 	//sets window view to camera
-	camera->cameraRender(); 
+	camera->cameraRender(target); 
 	//displays the window
-	
-}
-
-void GameMode::SFMLCameraEvent()
-{
-
-}
-
-void GameMode::addEvent(sf::Event& sfEvent)const 
-{
-	
-	//this->eventQueue.push_back(sfEvent); 
-}
-
-void GameMode::CameraEvents()
-{
 	
 }

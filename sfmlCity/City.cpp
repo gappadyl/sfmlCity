@@ -5,7 +5,7 @@ using namespace std;
 //inilization func
 void City::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "test Window", sf::Style::Close | sf::Style::Resize);
+	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "City Simulation", sf::Style::Close | sf::Style::Resize);
 	
 }
 
@@ -36,9 +36,18 @@ void City::initModes()
 {
 	currentMode = Game; 
 	game = new GameMode(window, &camera, population, levelMap, &heightMap, &widthMap, &tileLength, &bHasFocus); //creates a new GameMode
+	editor = new EditorMode(window, &camera, population, levelMap, &heightMap, &widthMap, &tileLength, &bHasFocus, dt); //creates a new Editor Object
 }
 
-
+void City::cleanUp()
+{
+	std::cout << widthMap << std::endl; 
+	delete this->population;
+	delete this->window;
+	delete this->levelMap;
+	delete this->game;
+	delete this->editor; 
+}
 //Constructors/Destructors
 City::City()
 {
@@ -53,9 +62,7 @@ City::City()
 
 City::~City()
 {
-	delete this->population; 
-	delete this->window; 
-	delete this->levelMap; 
+	cleanUp();
 }
 
 //Functions
@@ -113,8 +120,8 @@ void City::update()
 		game->update(dt); 
 	}
 	else if (currentMode == Editor)
-	{
-		camera.cameraUpdate(dt, bHasFocus); 
+	{//need to change to updating a editor object
+		editor->update(dt); 
 		
 	}
 	
@@ -130,15 +137,11 @@ void City::render()
  
 	if (currentMode == Game)
 	{
-		game->render(*window); 
+		game->render(window); 
 	}
 	else if (currentMode == Editor)
 	{
-		levelMap->render(*window, true);
-		//this->population->renderPopulation();
-		//sets window view to camera
-		this->camera.cameraRender();
-		//displays the window
+		editor->render(window); 
 	}
 
 

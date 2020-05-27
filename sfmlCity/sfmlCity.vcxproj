@@ -161,6 +161,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="City.cpp" />
     <ClCompile Include="EditorGui.cpp" />
+    <ClCompile Include="EditorMode.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameMode.cpp" />
     <ClCompile Include="Gui.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="City.h" />
     <ClInclude Include="EditorGui.h" />
+    <ClInclude Include="EditorMode.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameMode.h" />
     <ClInclude Include="Gui.h" />

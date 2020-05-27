@@ -15,7 +15,7 @@ public:
 
 	//Functions
 	void updatePopulation(float& dt);
-	void renderPopulation(); 
+	void renderPopulation(sf::RenderTarget* window);
 	float getHappy(); 
 	Person* getPlayer()const; 
 	//Variables

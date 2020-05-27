@@ -14,10 +14,8 @@ public:
 	~GameMode(); 
 	
 	virtual void update(float& dt); 
-	virtual void render(sf::RenderTarget& target); 
-	void SFMLCameraEvent(); 
-	void addEvent(sf::Event &sfEvent)const; 
-	void CameraEvents();
+	virtual void render(sf::RenderTarget* target); 
+	
 
 
 private:

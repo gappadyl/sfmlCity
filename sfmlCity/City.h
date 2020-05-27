@@ -2,6 +2,7 @@
 
 #include<iostream>
 #include"GameMode.h"
+#include"EditorMode.h"
 
 
 
@@ -16,6 +17,8 @@ private:
 	void initView(); 
 	void initPopulation(); 
 	void initModes(); 
+
+	void cleanUp(); 
 	
 
 	//Variables
@@ -39,8 +42,10 @@ private:
 	bool bHasFocus = true;
 	
 	//Modes
-	mode currentMode; 
+	mode currentMode; //use enum to keep track of mode used
 	GameMode *game; 
+	EditorMode *editor; 
+	
 	
 public:
 	//constructor/destructor

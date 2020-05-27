@@ -21,11 +21,15 @@ public:
 
 	void update(); 
 	void render(sf::RenderTarget& target,const bool showCollision); //renders all of the tiles
+	//need to add another render function or too this current render function
 
 	//[EDIT MODE] need to implement or think about states
-	void addTile(float cord_x, float cord_y, float cord_z,  short type =-1); 
+	void addTile(float cord_x, float cord_y, float cord_z, sf::IntRect rectangle,  bool collision, short type = -1);
 	void removeTile(float cord_x , float cord_y); 
 	bool isTileEmpty(const int cord_x, const int cord_y, const int cord_z);
+	//isTileVisible
+	//isTileHitBox
+
 private:
 	//Functions
 	void clear(); //clear map

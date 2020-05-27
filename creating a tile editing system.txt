@@ -1,0 +1,38 @@
+Problems and things that need to be solved to edit map.
+
+General
+-need to find a way to spawn entities consistenly in the map on construction
+{on runtime can look at map and find default tile to spawn too or throw error when it doesn't exist}
+
+-need to have a default map if the current map is too small{camera is too squishy}
+{we could write a file for default and check if the cameras size is within a comftorable margin and then run default
+instead if the loaded file is clunky and throw an error message}
+
+-need to change camera and entity bounds to visible terrain
+{we can have the entity be bounded by the max size of the map,
+we can have the camera be bounded by a Rectangle shape that can be stretched to fit a larger box than the terrain 
+or default to the terrain size 
+we can have the editable tiles have a hitbox so entities can't travel on them and are constricted to walkable terrain
+
+
+Editing
+-The editing bounds will be constricted by the max width and height of the map thats constructed
+//when in Game mode you will be limited to what we want visible, in Editing it will open up to the max bounded area set
+
+-in editing mode we want to render out squares out of bounds as textured like "+" or something else 
+and in game mode we want to render out water or someother tile. 
+{needs it's own function for level edit rendering- }
+-want to be able to pick up entities and place new ones without them getting stuck in bounded areas
+{need to check if a tile is has hit box is true.
+-want to place tiles upon entities while not blocking them and not trapping them.
+{we can have a hover of the tile type being rendered underneith the entity
+
+-do not want holes in map-> check if tile is contained in visible space and delete it if not. 
+
+-it would be very nice to be able to drag and expand the visible space.
+{maybe look at having a rectangle shape be used for visible space. ->if the height and width are larger than 
+the visible land keep it or if it is shorter then default to land length. maybe could have red on tiles that are not 
+visible, delete them if save? 
+ 
+need to come up with a editing GUI and use it to keep track of current tile selected, what tiles clicking, deleting.
+ECT... what functions do we need in level and how are we going to structure in GUI

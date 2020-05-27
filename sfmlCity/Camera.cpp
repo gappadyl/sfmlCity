@@ -70,9 +70,14 @@ void Camera::SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus, int mode)
 	
 }
 
+void Camera::cameraRender(sf::RenderTarget *target)
+{
+	target->setView(this->camera); 
+}
+
 void Camera::cameraRender()
 {
-	this->window->setView(this->camera); 
+	this->window->setView(this->camera);
 }
 
 sf::View* Camera::getCamera()//returns pointer to View camera
@@ -88,17 +93,17 @@ sf::View Camera::getOldCamera()//returns copy of View camera
 void Camera::boundsControl(sf::View* currentCamera, sf::View oldCamera)//check bounds and updates if out of bounds
 {
 	 
-	if (!isCameraLegal(currentCamera->getCenter(), currentCamera->getSize()))
+	if (!isCameraLegal(currentCamera->getCenter(), currentCamera->getSize()))//if the current camera is out of bounds
 	{
-		if (!isCameraLegal(oldCamera.getCenter(), currentCamera->getSize()))
+		if (!isCameraLegal(oldCamera.getCenter(), currentCamera->getSize()))//and the old camera
 		{
-			currentCamera->setCenter(map_Width/2 * map_PixelLength, map_Height/2 * map_PixelLength); //if Editing and camera goes out of bounds; 
+			currentCamera->setCenter(map_Width/2 * map_PixelLength, map_Height/2 * map_PixelLength); //set it to map center
 			this->camera.setSize(this->window->getSize().x / 2.f, this->window->getSize().y / 2.f);
 
 		}
 		else
 		{
-			*currentCamera = oldCamera;
+			*currentCamera = oldCamera; //else set it to old camera pre update
 		}
 	}
 }

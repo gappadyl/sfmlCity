@@ -8,7 +8,7 @@ Mode::Mode(sf::RenderWindow* window, Camera* view, unsigned int* heightMap, unsi
 }
 Mode::Mode()
 {
-
+	
 	//if no constructor provided
 	window = NULL; 
 	camera = NULL; 
@@ -16,7 +16,7 @@ Mode::Mode()
 	widthMap = NULL; 
 	tileLength = NULL; 
 
-	hasFocus = false; 
+	hasFocus = NULL; 
 
 	sfEvent = sf::Event(); 
 	dtClock = sf::Clock(); 
@@ -25,7 +25,9 @@ Mode::Mode()
 
 Mode::~Mode()
 {
-
+	
+	
+	
 }
 //Functions
 
@@ -34,7 +36,7 @@ void Mode::update(float& dt)
 
 }
 
-void Mode::render(sf::RenderTarget& target)
+void Mode::render(sf::RenderTarget* target)
 {
 
 }
