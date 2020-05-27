@@ -80,7 +80,7 @@ private:
 				}
 				else
 				{
-					std::cout << "end of animation" << std::endl; 
+					//std::cout << "end of animation" << std::endl; 
 					this->currentRect.left = this->startRect.left; //resets current Rect
 					
 				}

@@ -160,8 +160,13 @@
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="City.cpp" />
+    <ClCompile Include="EditorGui.cpp" />
+    <ClCompile Include="EditorMode.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GameMode.cpp" />
+    <ClCompile Include="Gui.cpp" />
     <ClCompile Include="HitBoxComponent.cpp" />
+    <ClCompile Include="Mode.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Population.cpp" />
@@ -175,8 +180,13 @@
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="City.h" />
+    <ClInclude Include="EditorGui.h" />
+    <ClInclude Include="EditorMode.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameMode.h" />
+    <ClInclude Include="Gui.h" />
     <ClInclude Include="HitBoxComponent.h" />
+    <ClInclude Include="Mode.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Population.h" />

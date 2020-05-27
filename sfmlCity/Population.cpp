@@ -2,9 +2,9 @@
 
 
 //Constructors/Destructors
-Population::Population(const int* level, sf::RenderTarget* window, std::map<std::string, sf::Texture> textures)
+Population::Population( sf::RenderTarget* window, std::map<std::string, sf::Texture> textures)
 {
-	this->level = level; 
+	
 	this->target = window; 
 	this->textures = textures; 
 	
@@ -13,13 +13,15 @@ Population::Population(const int* level, sf::RenderTarget* window, std::map<std:
 
 Population::Population()
 {
+	std::cout << "setting Robert to null" << std::endl; 
 	Robert = NULL; 
-	level = NULL; 
+	
 	target = NULL; 
 }
 
 Population::~Population()
 {
+	//std::cout << Robert << std::endl; 
 	delete this->Robert; 
 	
 	 
@@ -28,9 +30,10 @@ Population::~Population()
 //initializer Functions
 void Population::setUpPlayer(std::map<std::string, sf::Texture>& textures)
 {
-
+	std::cout << "player set up" << std::endl; 
 		this->Robert = new Person(50.f, 50.f, textures["PLAYER_IDLE"] ); 
 
+		std::cout << Robert << std::endl; 
 }
 
 //Functions
@@ -40,10 +43,10 @@ void Population::updatePopulation(float& dt)
 
 }
 
-void Population::renderPopulation()
+void Population::renderPopulation(sf::RenderTarget* window)
 {
 	try { 
-		this->Robert->render(this->target);
+		this->Robert->render(window);
 		}
 		catch (const char* msg)
 		{

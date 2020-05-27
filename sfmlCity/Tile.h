@@ -9,7 +9,7 @@
 #include"SFML/Network.hpp"
 
 
-enum TileTypes{Default = 0};
+enum TileTypes{Default = 0, Editable = 1};
 
 
 class Tile //base class for other tiles

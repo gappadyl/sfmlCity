@@ -5,7 +5,7 @@ using namespace std;
 //inilization func
 void City::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "test Window", sf::Style::Close | sf::Style::Resize);
+	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "City Simulation", sf::Style::Close | sf::Style::Resize);
 	
 }
 
@@ -19,6 +19,7 @@ void City::initView()
 	camera.ratioUpdate(window->getSize().x, window->getSize().y); 
 	
 }
+
 void City::initPopulation()
 {
 	//initializing texture
@@ -26,21 +27,27 @@ void City::initPopulation()
 	temp.loadFromFile("Textures/Player/DinoSprites - vita.png");
 	this->textures["PLAYER_IDLE"] = temp;
 
-	this->population = new Population( (this->level), this->window, textures); 
+	this->population = new Population( this->window, textures); 
 
 	 
 }
 
-bool City::initTileMap()
+void City::initModes()
 {
-
-	if (!(this->map.load("Textures/background/tileset.png", sf::Vector2u(tileLength, tileLength), level, widthMap, heightMap)))
-		throw("failed to find tileset file");
-	else
-		return 1; 
+	currentMode = Game; 
+	game = new GameMode(window, &camera, population, levelMap, &heightMap, &widthMap, &tileLength, &bHasFocus); //creates a new GameMode
+	editor = new EditorMode(window, &camera, population, levelMap, &heightMap, &widthMap, &tileLength, &bHasFocus, dt); //creates a new Editor Object
 }
 
-
+void City::cleanUp()
+{
+	std::cout << widthMap << std::endl; 
+	delete this->population;
+	delete this->window;
+	delete this->levelMap;
+	delete this->game;
+	delete this->editor; 
+}
 //Constructors/Destructors
 City::City()
 {
@@ -48,36 +55,17 @@ City::City()
 	this->initWindow(); //initializes the window
 	this->initView(); // initializes camera
 	this->levelMap = new TileMapLevel("test_load.txt"); 
-	this->levelMap->save_to_file("test_save.txt"); 
-	try { //loads the tile map textures and positions
-		this->initTileMap();
-	}
-	catch (const char* msg)
-	{
-		cerr << msg << endl;
-
-
-	}
-
 	initPopulation(); 
+
+	initModes(); 
 }
 
 City::~City()
 {
-	delete this->population; 
-	delete this->window; 
-
+	cleanUp();
 }
 
 //Functions
-
-
-void City::drawTileMap()
-{
-	this->window->draw(this->map);
-}
-
-
 
 void City::updateDT()
 {
@@ -103,22 +91,42 @@ void City::updateSFMLEvents()
 				this->bHasFocus = false;
 		}
 
-		camera.SFMLCameraEvents(this->sfEvent, this->bHasFocus); 
-		
+		if (this->sfEvent.type == sf::Event::KeyReleased && sfEvent.key.code == sf::Keyboard::LShift)//change game mode
+		{
+			if (currentMode == Game)
+			{
+				currentMode = Editor;
+			}
+			else if (currentMode == Editor)
+			{
+				currentMode = Game;
+			}
+		}
+
+		camera.SFMLCameraEvents(sfEvent, bHasFocus, currentMode); 
+		 
+		//Maybe we could have a event queue on the game mode object and send it there if it's a Camera move object??
 	}
 }
 
 void City::update()
 {
 	
-	this->camera.cameraUpdate(dt, bHasFocus); //camera update
-	this->updateSFMLEvents(); //SFML Event
-	this->population->updatePopulation(dt); 
-	if (levelMap)
+	this->updateSFMLEvents(); 
+
+	
+	if (currentMode == Game)
 	{
-		this->levelMap->gridBoarderCollisionCheck(population->getPlayer());
+		game->update(dt); 
 	}
-	this->camera.boundsControl((camera.getCamera() ), camera.getOldCamera());//bounds check post movement
+	else if (currentMode == Editor)
+	{//need to change to updating a editor object
+		editor->update(dt); 
+		
+	}
+	
+	//std::cout << currentMode << std::endl; 
+	
 
 }
 
@@ -126,21 +134,25 @@ void City::render()
 {
 	//clears the window
 	this->window->clear();
+ 
+	if (currentMode == Game)
+	{
+		game->render(window); 
+	}
+	else if (currentMode == Editor)
+	{
+		editor->render(window); 
+	}
 
-	//draws
-	//this->drawTileMap(); 
-	levelMap->render(*window, true); 
-	this->population->renderPopulation(); 
-	//sets window view to camera
-	this->camera.cameraRender();
-	//displays the window
+
+
 	this->window->display(); 
 }
 
 void City::run()
 {
 	while (this->window->isOpen())
-	{
+	{//switch statment for different modes
 		this->updateDT();
 		this->update(); 
 		this->render(); 

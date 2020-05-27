@@ -34,16 +34,30 @@ Camera::~Camera()
 
 //Functions
 
-void Camera::SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus)
+void Camera::SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus, int mode)
 {
 	if (cameraEvent.type == sf::Event::MouseWheelMoved && hasFocus==true)
 	{
+		oldCamera = camera; 
+		if (mode == 0)
+		{
 
-		if (camera.getSize().x >= 10)
-			camera.zoom(1.f - cameraEvent.mouseWheel.delta * 0.1f);
+			if (camera.getSize().x >= 32 && isCameraLegal(camera.getCenter(), camera.getSize() * (1.f - cameraEvent.mouseWheel.delta * 0.1f)))
+			{
+				camera.zoom(1.f - cameraEvent.mouseWheel.delta * 0.1f);
+			}
+		}
+		else if(mode == 1)
+		{
+			if (camera.getSize().x >= 32)
+			{
+				camera.zoom(1.f - cameraEvent.mouseWheel.delta * 0.1f); 
+			}
+		}
+		
 
-		if (camera.getSize().x < 10)
-			camera.setSize(10, 10);
+		if (camera.getSize().x < 32)
+			camera.setSize(32, 32);
 	}
 
 
@@ -56,9 +70,14 @@ void Camera::SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus)
 	
 }
 
+void Camera::cameraRender(sf::RenderTarget *target)
+{
+	target->setView(this->camera); 
+}
+
 void Camera::cameraRender()
 {
-	this->window->setView(this->camera); 
+	this->window->setView(this->camera);
 }
 
 sf::View* Camera::getCamera()//returns pointer to View camera
@@ -74,11 +93,18 @@ sf::View Camera::getOldCamera()//returns copy of View camera
 void Camera::boundsControl(sf::View* currentCamera, sf::View oldCamera)//check bounds and updates if out of bounds
 {
 	 
-	if (!isCameraLegal(currentCamera->getCenter(), currentCamera->getSize()))
+	if (!isCameraLegal(currentCamera->getCenter(), currentCamera->getSize()))//if the current camera is out of bounds
 	{
-		
-		*currentCamera = oldCamera;
+		if (!isCameraLegal(oldCamera.getCenter(), currentCamera->getSize()))//and the old camera
+		{
+			currentCamera->setCenter(map_Width/2 * map_PixelLength, map_Height/2 * map_PixelLength); //set it to map center
+			this->camera.setSize(this->window->getSize().x / 2.f, this->window->getSize().y / 2.f);
 
+		}
+		else
+		{
+			*currentCamera = oldCamera; //else set it to old camera pre update
+		}
 	}
 }
 

@@ -8,6 +8,7 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -30,6 +31,15 @@
     </Filter>
     <Filter Include="Source Files\TileMap\Tiles">
       <UniqueIdentifier>{b5ffa96c-e095-4786-8c72-bbfd840857df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{fd7378da-3d60-44ba-b64d-f7de7d300a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\GuiTypes">
+      <UniqueIdentifier>{43f45866-f885-4e57-89ae-91f29867f6e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Modes">
+      <UniqueIdentifier>{f588176a-c6f2-4400-bef0-258f6ac1600a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,14 +82,23 @@
     <ClCompile Include="TileMapLevel.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
+    <ClCompile Include="Gui.cpp">
+      <Filter>Source Files\GUI\GuiTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorGui.cpp">
+      <Filter>Source Files\GUI\GuiTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Mode.cpp">
+      <Filter>Source Files\Modes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMode.cpp">
+      <Filter>Source Files\Modes</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorMode.cpp">
+      <Filter>Source Files\Modes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="City.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tileMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Source Files\Camera</Filter>
     </ClInclude>
@@ -109,6 +128,27 @@
     </ClInclude>
     <ClInclude Include="TileMapLevel.h">
       <Filter>Source Files\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui.h">
+      <Filter>Source Files\GUI\GuiTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorGui.h">
+      <Filter>Source Files\GUI\GuiTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Mode.h">
+      <Filter>Source Files\Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMode.h">
+      <Filter>Source Files\Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorMode.h">
+      <Filter>Source Files\Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="City.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tileMap.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

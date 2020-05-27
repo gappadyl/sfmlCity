@@ -12,7 +12,7 @@ TileMapLevel::TileMapLevel(int width, int height, float gridSize, std::string te
 	this->maxSizeWorldGrid.x = width; 
 	this->maxSizeWorldGrid.y = height; 
 
-	//max horizontal and vertical float length
+	//max horizontal and vertical float length in pixels
 	this->maxSizeWorldF.x = gridSize * static_cast<float>(width); 
 	this->maxSizeWorldF.y = gridSize * static_cast<float>(height);
 
@@ -68,19 +68,19 @@ void TileMapLevel::load_from_file(const std::string file)
 	std::ifstream file_in; 
 
 	file_in.open(file); 
-	//std::cout << "got here" << std::endl; 
+	
 	if (file_in.is_open())
 	{
-		
 		//map dimension
 		sf::Vector2i size; 
 		bool collision = false;
-
 		int layers = 0;
 		int gridSize; 
+
 		//Rect starting cordinates
 		int trX = 0; 
 		int trY = 0; 
+
 		//position on map
 		int x = 0;
 		int y = 0;
@@ -90,15 +90,20 @@ void TileMapLevel::load_from_file(const std::string file)
 
 		std::string texture_file = "";
 
-		file_in >> size.x >> size.y >> gridSize >> layers >> texture_file; //reads from a file values [size of map , tile size , z axis, texture file]
+		file_in >> size.x >> size.y >> gridSize >> layers >> texture_file; 
+		//reads from a file values [size of map , tile size , z axis, texture file]
+
 		//sets tile size
 		gridSizeF = static_cast<float>(gridSize); 
 		gridSizeI = gridSize; 
+
 		//amounts of layers set
 		this->layers = layers; 
+
 		//pixel width and height of map
 		maxSizeWorldF.x = static_cast<float>(gridSize * size.x); 
 		maxSizeWorldF.y = static_cast<float>(gridSize * size.y);
+
 		//width and height of map
 		maxSizeWorldGrid.x = size.x; 
 		maxSizeWorldGrid.y = size.y; 
@@ -129,7 +134,7 @@ void TileMapLevel::load_from_file(const std::string file)
 	}
 	else
 	{
-		std::cout << "couldnt could load from filename" << std::endl;
+		std::cout << "couldnt load from filename" << std::endl;
 	}
 
 	file_in.close();
@@ -149,7 +154,7 @@ void TileMapLevel::save_to_file(const std::string file)
 	std::ofstream file_out; 
 
 	file_out.open(file); 
-	//file_out.clear(); 
+	
 
 	if (file_out.is_open())
 	{
@@ -178,11 +183,11 @@ void TileMapLevel::save_to_file(const std::string file)
 	file_out.close(); 
 }
 
-void TileMapLevel::gridBoarderCollisionCheck(Entity* entity)
+void TileMapLevel::gridBoarderCollisionCheck(Entity* entity) //need to change so that it stays in little box
 {
 	//World bounds check
 	sf::RectangleShape hitBox = entity->getHitBox(); 
-	std::cout << hitBox.getPosition().x << std::endl; 
+	
 	if (hitBox.getPosition().x + entity->getHitBoxDimensions().x > maxSizeWorldF.x)
 	{
 		
@@ -243,13 +248,13 @@ void TileMapLevel::gridBoarderCollisionCheck(Entity* entity)
 	}
 
 	
-}
+} // might have to change
 
 void TileMapLevel::clear()
 {//clears map
 
 	if (!map.empty())
-	{
+	{ 
 		for (int x = 0; x < map.size(); x++)
 		{
 			for (int y = 0; y < map[x].size(); y++)
@@ -294,6 +299,7 @@ void TileMapLevel::resize()
 		std::cout << "the size of map is less than 1" << std::endl; 
 	}
 }
+
 bool TileMapLevel::isTileEmpty(const int cord_x, const int cord_y, const int cord_z)
 {
 	if (cord_x >= 0 && cord_x <= maxSizeWorldGrid.x //checking if point clicked is in bounds of map
@@ -312,7 +318,7 @@ void TileMapLevel::update()
 
 }
 
-void TileMapLevel::render(sf::RenderTarget& target, const bool showCollision)
+void TileMapLevel::render(sf::RenderTarget& target, const bool showCollision)//need to edit to handle edit and game differently
 {//draw each tile sprite
 
 	for (int x = 0; x < map.size(); x++)
@@ -322,10 +328,10 @@ void TileMapLevel::render(sf::RenderTarget& target, const bool showCollision)
 			for (size_t w = 0; w < map[x][y][0].size(); w++)
 			{
 				map[x][y][currentLayer][w]->render(target); 
-				
+				//check if Tile is Editable Tile type
 				if (showCollision)
 				{
-					if (map[x][y][currentLayer][w]->getCollision()) //render collision
+					if (map[x][y][currentLayer][w]->getCollision()) //render collision box
 					{
 						collisionBox.setPosition(map[x][y][currentLayer][w]->getPosition()); 
 						target.draw(collisionBox); 
@@ -337,9 +343,26 @@ void TileMapLevel::render(sf::RenderTarget& target, const bool showCollision)
 	}
 }
 
-void TileMapLevel::addTile(float cord_x, float cord_y, float cord_z, short type)
+void TileMapLevel::addTile(float cord_x, float cord_y, float cord_z, sf::IntRect rectangle, bool collision, short type)
 {//add Tile at cordinates
+	std::cout << cord_x << " " << cord_y << " " << cord_z << " " << type<<  std::endl; 
 
+	//When we put enemy tiles on, want to make sure there is a regular tile underneith without a hitbox. We can check by popping off the tiles into an array and
+	//then checking if the last tile is a regular tile
+
+	if (cord_x >= 0 && cord_x < maxSizeWorldGrid.x && (cord_y >= 0 && cord_y < maxSizeWorldGrid.y))
+	{//checks if cordinates are within map size
+		if (isTileEmpty(cord_x, cord_y, cord_z))
+		{
+			map[cord_x][cord_y][cord_z].push_back(new RegularTile(cord_x, cord_y, gridSizeI, texture_sheet, rectangle, collision, type));
+		}
+		else
+		{
+			map[cord_x][cord_y][cord_z].pop_back(); 
+			map[cord_x][cord_y][cord_z].push_back(new RegularTile(cord_x, cord_y, gridSizeI, texture_sheet, rectangle, collision, type));
+		}
+	}
+		//new RegularTile(x, y, gridSizeI, texture_sheet, sf::IntRect(trX, trY, gridSizeI, gridSizeI), collision, type)
 }
 void TileMapLevel::removeTile(float cord_x, float cord_y)
 {//remove Tile at coridnates
