@@ -20,12 +20,10 @@ sf::Vector2f EditorGui::getLocation()const
 
 void EditorGui::update(sf::Vector2i& mousePos, float& dt)
 {
-	RobertsButton->update(mousePos); 
-	RobertSelector->update(mousePos, dt ); 
+	
 }
 
 void EditorGui::render(sf::RenderTarget& target)
 {
-	this->RobertsButton->render(target);
-	this->RobertSelector->render(target); 
+	
 }

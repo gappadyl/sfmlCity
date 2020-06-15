@@ -34,7 +34,7 @@ void GameMode::update(float& dt)
 void GameMode::render(sf::RenderTarget* target)
 {
 	
-	level->render(*target, true); 
+	level->render(*target, false); 
 	population->renderPopulation(target);
 	//sets window view to camera
 	camera->cameraRender(target); 

@@ -5,7 +5,7 @@ EditorMode::EditorMode(sf::RenderWindow* window, Camera* view, Population* popul
 	unsigned int* heightMap, unsigned int* widthMap, unsigned int* tileLength,
 	bool* hasFocus, float& dt):Mode(window, view, heightMap, widthMap, tileLength, hasFocus), dt(dt)
 {
-	
+	//Load gui components
 	if (!font.loadFromFile("Fonts/arial.ttf"))
 	{
 		std::cout << "oops" << std::endl;
@@ -18,10 +18,12 @@ EditorMode::EditorMode(sf::RenderWindow* window, Camera* view, Population* popul
 	this->population = population; 
 	this->tilemap = level; 
 	
-	//initialize the gui, need to send it tilelength size, texture file
+	//initialize the gui
 	initGui(font, &texture); 
+
 	this->window = window; 
 	
+	tool = add_Mode; 
 }
 
 EditorMode::~EditorMode()
@@ -30,36 +32,62 @@ EditorMode::~EditorMode()
 	delete this->textSelect; 
 }
 
+void EditorMode::updateControls(float& dt)
+{
+	//camera movement
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+	{
+		camera->cameraUpdate(dt, true);
+	}
+
+	switch (tool)
+	{
+		case add_Mode: 
+			textSelect->update(worldPos, dt);
+
+			worldPos = sf::Vector2i(worldPos.x / 32, worldPos.y / 32);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !textSelect->isSelectorActive())
+			{
+				this->tilemap->addTile(worldPos.x, worldPos.y, 0, textSelect->getTextureSelected(), true, 0);
+			}
+			break; 
+		case delete_Mode:
+
+			break; 
+
+		case move_Mode:
+
+			break; 
+	}
+}
  void EditorMode::update(float& dt)
 {
-	 camera->cameraUpdate(dt, true);
+	
+	 locMousePosition = sf::Mouse::getPosition(*window);
+	 worldPos = static_cast<sf::Vector2i>((*window).mapPixelToCoords(locMousePosition));
+
+	 updateControls(dt); 
 	 
-	 blah = sf::Mouse::getPosition(*window);
-	 worldPos =static_cast<sf::Vector2i>( (*window).mapPixelToCoords(blah) );
-	 textSelect->update(worldPos, dt); 
-	 //gui->update(worldPos, dt); 
-	 //if click with mouse
-	 worldPos = sf::Vector2i(worldPos.x / 32, worldPos.y/ 32); 
-	 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	 {
-		 this->tilemap->addTile(worldPos.x, worldPos.y, 0, textSelect->getTextureSelected(), false, 0); 
-	 }
-	 //editor gui(mouse cordinates) returns true or false
-
-	 //if nothing to click gui check if there is population to click
-	 //if no population then see what mode we are in "build" or "delete"
-
-	 //this is going to check for clicks on map and on grid to pick tile and place them. Editing objecT?
-	 //need to check if user wants to write to a file for the new tile map. 
-	 //population->updatePopulation(dt); 
 
 }
 
  void EditorMode::render(sf::RenderTarget* target)
  {
 	 tilemap->render(*target, true); 
-	 population->renderPopulation(target); 
-	 textSelect->render(*target); 
+	 population->renderPopulation(target);
+	 switch (tool)
+	 {
+	 case add_Mode:
+		 textSelect->render(*target);
+		 break; 
+
+	 case delete_Mode: 
+		 break; 
+	 case move_Mode:
+		 break; 
+	 }
+
+	 
 	 camera->cameraRender(target);
 	 //render button objects and clickable tiles and tile placement cursor 
  }

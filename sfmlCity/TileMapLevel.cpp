@@ -48,7 +48,7 @@ TileMapLevel::TileMapLevel(const std::string file_name)//load from file
 
 	load_from_file(file_name); 
 
-	collisionBox.setSize(sf::Vector2f(gridSizeF, gridSizeF ) );
+	collisionBox.setSize(sf::Vector2f(gridSizeF-1, gridSizeF-1 ) );
 	collisionBox.setFillColor(sf::Color::Transparent);
 	collisionBox.setOutlineThickness(1.f); 
 	collisionBox.setOutlineColor(sf::Color::Red); 

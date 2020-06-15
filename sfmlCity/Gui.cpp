@@ -4,7 +4,7 @@
 
 Gui::~Gui()
 {
-	delete(RobertsButton); 
+	
 }
 
 
@@ -86,7 +86,13 @@ void Gui::Button::setId(const short unsigned Id)
 {
 	this->id = Id; 
 }
+bool Gui::Button::isHover()const
+{
+	if (buttonState == hover_state)
+		return true; 
 
+return false; 
+}
 void Gui::Button::update(const sf::Vector2i& mousePosition)
 {//want to check if mouseposition is in button, check if it clicks, 
 	buttonState = idle_state; 
@@ -249,10 +255,11 @@ void Gui::TextureSelection::update(sf::Vector2i& mousePosition, const float& dt)
 		std::cout << "switch hidden" << std::endl; 
 	}
 	
+	isActive = false;
 
 	if (!hidden)
 	{//if visible
-		isActive = false; 
+		
 		
 		if (selectorBody.getGlobalBounds().contains(static_cast<sf::Vector2f> (mousePosition)) )
 		{//if the selectorbody has the
@@ -274,10 +281,16 @@ void Gui::TextureSelection::update(sf::Vector2i& mousePosition, const float& dt)
 				
 
 		}
-
+		
 
 
 	}
+	
+	if (hideButton->isHover() || hideButton->isActive())
+	{
+		isActive = true;
+	}
+
 	//want to check if visible
 
 	//if visible check if mouse in included in the selectorbox->probably want to put in into world cordinates

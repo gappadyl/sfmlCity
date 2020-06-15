@@ -156,6 +156,7 @@ void City::run()
 		this->updateDT();
 		this->update(); 
 		this->render(); 
+		//std::cout << dt << std::endl; 
 	}
 }
 

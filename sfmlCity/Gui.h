@@ -51,6 +51,7 @@ public:
 		//accesors
 		std::string returnText()const;
 		bool isActive()const;
+		bool isHover()const; 
 		short unsigned getId()const;
 
 		//mutator
@@ -107,8 +108,8 @@ public:
 		void select();
 	};
 
-	Gui::Button* RobertsButton;
-	Gui::TextureSelection* RobertSelector; 
+	
+	
 protected: 
 	//need to figure out what GUI needs sf::Rectangle shape?? location?
 private:
