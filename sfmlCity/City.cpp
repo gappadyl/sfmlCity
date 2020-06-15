@@ -136,11 +136,11 @@ void City::renderHighlight()
 	sf::Vector2i mpos = sf::Mouse::getPosition(*this->window);
 	sf::Vector2f cpos = this->camera.getCamera()->getCenter();
 	sf::RectangleShape Rect = sf::RectangleShape();
-	int x = (-window->mapPixelToCoords(mpos) + sf::Vector2f(16, 16)).x / 32;
-	int y = (-window->mapPixelToCoords(mpos) + sf::Vector2f(16, 16)).y / 32;
+	int x = round((-window->mapPixelToCoords(mpos) + sf::Vector2f(16, 16)).x / 32);
+	int y = round((-window->mapPixelToCoords(mpos) + sf::Vector2f(16, 16)).y / 32);
 	Rect.setOrigin(x * 32, y * 32);
 	Rect.setSize(sf::Vector2f(32,32));
-	Rect.setOutlineColor(sf::Color::Yellow);
+	Rect.setOutlineColor(sf::Color(255,255,0,128));
 	Rect.setOutlineThickness(1);
 	Rect.setFillColor(sf::Color::Transparent);
 	window->draw(Rect);
