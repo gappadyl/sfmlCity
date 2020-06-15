@@ -8,11 +8,11 @@ EditorMode::EditorMode(sf::RenderWindow* window, Camera* view, Population* popul
 	//Load gui components
 	if (!font.loadFromFile("Fonts/arial.ttf"))
 	{
-		std::cout << "oops" << std::endl;
+		std::cout << "Failed to load Fonts/arial.ttf" << std::endl;
 	}
 	if (!texture.loadFromFile("Textures/background/tileset.png"))
 	{
-		std::cout << "oops" << std::endl;
+		std::cout << "Failed to load Textures/background/tileset.png" << std::endl;
 	}
 
 	this->population = population; 
