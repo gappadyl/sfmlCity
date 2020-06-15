@@ -130,11 +130,27 @@ void City::update()
 
 }
 
+//wasn't sure where to put this func, figured here would be fine for now, also its pretty ghetto
+void City::renderHighlight()
+{
+	sf::Vector2i mpos = sf::Mouse::getPosition(*this->window);
+	sf::Vector2f cpos = this->camera.getCamera()->getCenter();
+	sf::RectangleShape Rect = sf::RectangleShape();
+	int x = (-window->mapPixelToCoords(mpos) + sf::Vector2f(16, 16)).x / 32;
+	int y = (-window->mapPixelToCoords(mpos) + sf::Vector2f(16, 16)).y / 32;
+	Rect.setOrigin(x * 32, y * 32);
+	Rect.setSize(sf::Vector2f(32,32));
+	Rect.setOutlineColor(sf::Color::Yellow);
+	Rect.setOutlineThickness(1);
+	Rect.setFillColor(sf::Color::Transparent);
+	window->draw(Rect);
+}
+
 void City::render()
 {
 	//clears the window
 	this->window->clear();
- 
+
 	if (currentMode == Game)
 	{
 		game->render(window); 
@@ -144,8 +160,7 @@ void City::render()
 		editor->render(window); 
 	}
 
-
-
+	renderHighlight();
 	this->window->display(); 
 }
 
