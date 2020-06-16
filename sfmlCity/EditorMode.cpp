@@ -19,10 +19,11 @@ EditorMode::EditorMode(sf::RenderWindow* window, Camera* view, Population* popul
 	this->tilemap = level; 
 	
 	//initialize the gui
-	initGui(font, &texture); 
+	
 
 	this->window = window; 
-	
+
+	initGui(font, &texture);
 	tool = add_Mode; 
 }
 
@@ -30,10 +31,12 @@ EditorMode::~EditorMode()
 {
 	
 	delete this->textSelect; 
+	delete this->highlighter; 
 }
 
 void EditorMode::updateControls(float& dt)
 {
+	tile_cordinates = sf::Vector2i(worldPos.x / 32, worldPos.y / 32);
 	//camera movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 	{
@@ -42,15 +45,25 @@ void EditorMode::updateControls(float& dt)
 
 	switch (tool)
 	{
+		case default_Mode:
+		//show drop down list
+			highlighter->update(this->window); 
+			highlighter->outOfBoundsHighlight(tilemap->isCordinateInsideMap(tile_cordinates), sf::Color::Green); 
+			std::cout << tilemap->isCordinateInsideMap(tile_cordinates) << std::endl; 
+			break; 
 		case add_Mode: 
 			textSelect->update(worldPos, dt);
 
-			worldPos = sf::Vector2i(worldPos.x / 32, worldPos.y / 32);
+			highlighter->update(this->window);
+			highlighter->outOfBoundsHighlight(tilemap->isCordinateInsideMap(tile_cordinates), sf::Color::Green);
+			//std::cout << "is the cordinate in highlightable" " "+ tilemap->isCordinateInsideMap(tile_cordinates) << std::endl;
+
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !textSelect->isSelectorActive())
 			{
-				this->tilemap->addTile(worldPos.x, worldPos.y, 0, textSelect->getTextureSelected(), true, 0);
+				this->tilemap->addTile(tile_cordinates.x, tile_cordinates.y, 0, textSelect->getTextureSelected(), true, 0);
 			}
 			break; 
+
 		case delete_Mode:
 
 			break; 
@@ -77,7 +90,11 @@ void EditorMode::updateControls(float& dt)
 	 population->renderPopulation(target);
 	 switch (tool)
 	 {
+	 case default_Mode: 
+		 highlighter->render(*target); 
+		 break; 
 	 case add_Mode:
+		 highlighter->render(*target);
 		 textSelect->render(*target);
 		 break; 
 
@@ -95,4 +112,5 @@ void EditorMode::updateControls(float& dt)
  void EditorMode::initGui(sf::Font& font, const sf::Texture *textureSheet)
  {
 	 this->textSelect = new Gui::TextureSelection(100.f, 100.f, 200.f, 32.f, 32.f, textureSheet, font, "X");
+	 this->highlighter = new Gui:: Highlight(this->window, 32, sf::Color::Yellow);
  }

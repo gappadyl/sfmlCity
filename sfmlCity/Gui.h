@@ -1,10 +1,5 @@
 #pragma once
-#include "SFML/window.hpp"
-#include"SFML/System.hpp"
-#include"SFML/Graphics.hpp"
-#include"SFML/Audio.hpp"
-#include"SFML/Network.hpp"
-#include <iostream>
+#include "Window.h"
 //need button class to click
 
 class Gui
@@ -108,10 +103,29 @@ public:
 		void select();
 	};
 
-	
+	class Highlight {
+	public:
+		//Constructor/Destructor
+		Highlight(sf::RenderWindow* window,  int tileSize, sf::Color color);
+		~Highlight(); 
+
+
+		//functions
+		void render(sf::RenderTarget& target); 
+		void update(sf::RenderWindow* target);
+		void outOfBoundsHighlight(const bool inBounds, sf::Color new_color); 
+
+	private:
+		sf::RectangleShape highlight; 
+		sf::Vector2i mpos;
+		int x;
+		int y;
+	    int tile_Size; 
+		sf::Color outlineColor; 
+	};
 	
 protected: 
-	//need to figure out what GUI needs sf::Rectangle shape?? location?
+	
 private:
 	sf::Font font;
 	sf::Texture sheet; 

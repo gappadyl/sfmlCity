@@ -27,10 +27,14 @@ private:
 	tools tool;
 	sf::Vector2i locMousePosition; 
 	sf::Vector2i worldPos; 
+	sf::Vector2i tile_cordinates;
 	sf::RenderWindow* window; 
 	sf::Font font; 
 	sf::Texture texture; 
+	
+
   EditorGui::TextureSelection* textSelect; 
+  EditorGui::Highlight* highlighter; 
 	
 };
 

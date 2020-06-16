@@ -131,20 +131,7 @@ void City::update()
 }
 
 //wasn't sure where to put this func, figured here would be fine for now, also its pretty ghetto
-void City::renderHighlight()
-{
-	sf::Vector2i mpos = sf::Mouse::getPosition(*this->window);
-	sf::Vector2f cpos = this->camera.getCamera()->getCenter();
-	sf::RectangleShape Rect = sf::RectangleShape();
-	int x = round((-window->mapPixelToCoords(mpos) + sf::Vector2f(16, 16)).x / 32);
-	int y = round((-window->mapPixelToCoords(mpos) + sf::Vector2f(16, 16)).y / 32);
-	Rect.setOrigin(x * 32, y * 32);
-	Rect.setSize(sf::Vector2f(32,32));
-	Rect.setOutlineColor(sf::Color(255,255,0,128));
-	Rect.setOutlineThickness(1);
-	Rect.setFillColor(sf::Color::Transparent);
-	window->draw(Rect);
-}
+
 
 void City::render()
 {
@@ -160,7 +147,7 @@ void City::render()
 		editor->render(window); 
 	}
 
-	renderHighlight();
+	
 	this->window->display(); 
 }
 
@@ -171,7 +158,7 @@ void City::run()
 		this->updateDT();
 		this->update(); 
 		this->render(); 
-		//std::cout << dt << std::endl; 
+		 
 	}
 }
 

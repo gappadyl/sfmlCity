@@ -27,6 +27,7 @@ public:
 	void addTile(float cord_x, float cord_y, float cord_z, sf::IntRect rectangle,  bool collision, short type = -1);
 	void removeTile(float cord_x , float cord_y); 
 	bool isTileEmpty(const int cord_x, const int cord_y, const int cord_z);
+	bool isCordinateInsideMap(sf::Vector2i cordinate); 
 	//isTileVisible
 	//isTileHitBox
 
