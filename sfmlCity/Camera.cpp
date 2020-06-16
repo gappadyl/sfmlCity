@@ -169,33 +169,33 @@ void Camera::cameraKeyEvents()//all key events for camera
 {
 	//camera controls
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp) && camera.getSize().x >= 10)
-		camera.zoom(1.f - this->dt);
+		camera.zoom(10.f*  this->dt);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown) && camera.getSize().x <= 1000)
-		camera.zoom(1.f + this->dt);
+		camera.zoom(10.f* this->dt);
 	
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		camera.move(-0.5f + this->dt, 0);
+		camera.move(-200.f* this->dt, 0);
 
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		camera.move(0.5f + this->dt, 0);
+		camera.move(200.f*this->dt, 0);
 
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		camera.move(0, -0.5f + this->dt);
+		camera.move(0, -200.f* this->dt);
 
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		camera.move(0, 0.5f + this->dt);
+		camera.move(0, 200.f* this->dt);
 
 	}
 
@@ -223,9 +223,10 @@ void Camera::ratioUpdate(const float width, const float height)
 	sf::View* cam = getCamera(); 
 	*cam = correctRatioView(camera, width, height); 
 }
-void Camera::cameraUpdate(float dt, bool hasFocus)//update
+void Camera::cameraUpdate(const float& dt, bool hasFocus)//update
 {
 	this->dt = dt; 
+	
 	this->oldCamera = this->camera;
 
 	if (hasFocus)

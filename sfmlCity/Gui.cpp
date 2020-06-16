@@ -4,7 +4,7 @@
 
 Gui::~Gui()
 {
-	delete(RobertsButton); 
+	
 }
 
 
@@ -86,7 +86,13 @@ void Gui::Button::setId(const short unsigned Id)
 {
 	this->id = Id; 
 }
+bool Gui::Button::isHover()const
+{
+	if (buttonState == hover_state)
+		return true; 
 
+return false; 
+}
 void Gui::Button::update(const sf::Vector2i& mousePosition)
 {//want to check if mouseposition is in button, check if it clicks, 
 	buttonState = idle_state; 
@@ -249,10 +255,11 @@ void Gui::TextureSelection::update(sf::Vector2i& mousePosition, const float& dt)
 		std::cout << "switch hidden" << std::endl; 
 	}
 	
+	isActive = false;
 
 	if (!hidden)
 	{//if visible
-		isActive = false; 
+		
 		
 		if (selectorBody.getGlobalBounds().contains(static_cast<sf::Vector2f> (mousePosition)) )
 		{//if the selectorbody has the
@@ -274,10 +281,16 @@ void Gui::TextureSelection::update(sf::Vector2i& mousePosition, const float& dt)
 				
 
 		}
-
+		
 
 
 	}
+	
+	if (hideButton->isHover() || hideButton->isActive())
+	{
+		isActive = true;
+	}
+
 	//want to check if visible
 
 	//if visible check if mouse in included in the selectorbox->probably want to put in into world cordinates
@@ -321,4 +334,54 @@ Gui::Gui()
 
 		/*float x, float y, float width, float height, float gridSize,
 		const sf::Texture* sheet, sf::Font& font, std::string text) :maxKeyTime(1.f), keyTime(0.f)*/
+}
+
+
+Gui::Highlight::Highlight(sf::RenderWindow* window, int tileSize, sf::Color color)
+{
+	tile_Size = tileSize; 
+	if (window != nullptr)
+	{
+		mpos = sf::Mouse::getPosition(*window);
+		int x = round((-window->mapPixelToCoords(mpos) + sf::Vector2f(tile_Size / 2, tile_Size / 2)).x / tile_Size);
+		int y = round((-window->mapPixelToCoords(mpos) + sf::Vector2f(tile_Size / 2, tile_Size / 2)).y / tile_Size);
+	}
+	outlineColor = color; 
+	highlight = sf::RectangleShape(); 
+	highlight.setOrigin(x * tile_Size, y * tile_Size);
+	highlight.setSize(sf::Vector2f(tile_Size, tile_Size));
+	highlight.setOutlineColor(color);
+	highlight.setOutlineThickness(1);
+	highlight.setFillColor(sf::Color::Transparent);
+}
+
+Gui::Highlight::~Highlight()
+{
+
+}
+
+void Gui::Highlight::render(sf::RenderTarget& target)
+{
+	
+	target.draw(highlight); 
+}
+void::Gui::Highlight::outOfBoundsHighlight(const bool inBounds, sf::Color new_color)
+{
+	highlight.setOutlineColor(outlineColor); 
+
+	if (!inBounds)
+	{
+		
+		highlight.setOutlineColor(new_color);
+	}
+	
+
+}
+void Gui::Highlight::update(sf::RenderWindow* target)
+{
+	mpos = sf::Mouse::getPosition(*target);
+	int x = round((-target->mapPixelToCoords(mpos) + sf::Vector2f(tile_Size / 2, tile_Size / 2)).x / tile_Size);
+	int y = round((-target->mapPixelToCoords(mpos) + sf::Vector2f(tile_Size / 2, tile_Size / 2)).y / tile_Size);
+	highlight.setOrigin(x * tile_Size, y * tile_Size);
+	
 }

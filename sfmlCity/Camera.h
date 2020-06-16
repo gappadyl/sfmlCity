@@ -14,7 +14,7 @@ public:
 
 
 	//Functions
-	void cameraUpdate(float dt, bool hasFocus);
+	void cameraUpdate(const float& dt, bool hasFocus);
 	void SFMLCameraEvents(sf::Event cameraEvent, bool hasFocus, int mode);
 	void cameraRender(sf::RenderTarget *target); 
 	void cameraRender(); 

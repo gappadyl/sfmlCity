@@ -24,8 +24,8 @@ void MovementComponent::move(const float x, const float y, const float& dt)
 void MovementComponent::setCurrentVelocity(const float dir_x, const float dir_y, const float& dt)
 {//accelerates sprite
 	
-	this->velocity.x += acceleration * dir_x; 
-	this->velocity.y += acceleration * dir_y; 
+	this->velocity.x += acceleration * dir_x*dt *100.f; 
+	this->velocity.y += acceleration * dir_y*dt*100.f; 
 
 }
 
@@ -64,7 +64,7 @@ void MovementComponent::update(const float& dt)
 	if (velocity.x > 0)
 	{
 		//Deceleration
-		velocity.x -= deceleration; 
+		velocity.x -= deceleration*500.f*dt; 
 		if (velocity.x < 0.f)
 			velocity.x = 0.f; 
 		//check maxVelocity
@@ -76,7 +76,7 @@ void MovementComponent::update(const float& dt)
 	else if (velocity.x < 0)
 	{
 		//Deceleration
-		velocity.x += deceleration; 
+		velocity.x += deceleration*500.f*dt; 
 		if (velocity.x > 0)
 			velocity.x = 0; 
 		//check maxVelocity
@@ -89,7 +89,7 @@ void MovementComponent::update(const float& dt)
 	if (velocity.y > 0)
 	{
 		//Deceleration
-		velocity.y -= deceleration; 
+		velocity.y -= deceleration*500.f*dt; 
 		if (velocity.y < 0)
 			velocity.y = 0; 
 
@@ -103,7 +103,7 @@ void MovementComponent::update(const float& dt)
 	else if (velocity.y < 0)
 	{
 		//Deceleration
-		velocity.y += deceleration; 
+		velocity.y += deceleration*500.f*dt; 
 		if (velocity.y > 0)
 			velocity.y = 0;
 

@@ -56,7 +56,6 @@ public:
 	void updateDT();
 	void updateSFMLEvents();
 	void update();
-	void renderHighlight();
 	void render(); 
 	void run(); 
 	
