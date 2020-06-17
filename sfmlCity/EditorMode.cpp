@@ -48,20 +48,38 @@ void EditorMode::updateControls(float& dt)
 		case default_Mode:
 		//show drop down list
 			highlighter->update(this->window); 
-			highlighter->outOfBoundsHighlight(tilemap->isCordinateInsideMap(tile_cordinates), sf::Color::Green); 
-			std::cout << tilemap->isCordinateInsideMap(tile_cordinates) << std::endl; 
+			highlighter->outOfBoundsHighlight(tilemap->isCordinateInsideMap(worldPos), sf::Color::Green);
+			
 			break; 
 		case add_Mode: 
+
 			textSelect->update(worldPos, dt);
 
-			highlighter->update(this->window);
-			highlighter->outOfBoundsHighlight(tilemap->isCordinateInsideMap(tile_cordinates), sf::Color::Green);
-			//std::cout << "is the cordinate in highlightable" " "+ tilemap->isCordinateInsideMap(tile_cordinates) << std::endl;
+			if (!textSelect->isSelectorActive() && !textSelect->isMoving() && !textSelect->isButtonActive())
+			{//if selector not active, selector not being moved, buttons are not active
 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !textSelect->isSelectorActive())
-			{
-				this->tilemap->addTile(tile_cordinates.x, tile_cordinates.y, 0, textSelect->getTextureSelected(), true, 0);
+				highlighter->setVisibility(true); 
+				textSelect->selectorSetVisible(false); 
+				highlighter->update(this->window);
+				highlighter->outOfBoundsHighlight(tilemap->isCordinateInsideMap(worldPos), sf::Color::Magenta);
+
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					this->tilemap->addTile(worldPos.x, worldPos.y, 0, textSelect->getTextureSelected(), true, 0);
+				}
 			}
+			else if(textSelect->isSelectorActive() && !textSelect->isButtonActive() && !textSelect->isMoveable())
+			{//if textSelect is active, but buttons are not active, and it's not moving
+				textSelect->selectorSetVisible(true);
+				highlighter->setVisibility(false);
+			}
+			else
+			{
+				textSelect->selectorSetVisible(false); 
+				highlighter->setVisibility(false);
+			}
+
+			
 			break; 
 
 		case delete_Mode:
@@ -111,6 +129,6 @@ void EditorMode::updateControls(float& dt)
 
  void EditorMode::initGui(sf::Font& font, const sf::Texture *textureSheet)
  {
-	 this->textSelect = new Gui::TextureSelection(100.f, 100.f, 200.f, 32.f, 32.f, textureSheet, font, "X");
+	 this->textSelect = new Gui::TextureSelection(100.f, 100.f, 200.f, 32.f, 32.f, textureSheet, font, "X", window);
 	 this->highlighter = new Gui:: Highlight(this->window, 32, sf::Color::Yellow);
  }

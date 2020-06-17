@@ -33,7 +33,8 @@ public:
 		//text details
 		sf::Text text;
 		sf::Font* font;
-
+		std::string true_text; 
+		std::string false_text; 
 
 	public:
 		Button(float x, float y, float width, float height,
@@ -50,6 +51,8 @@ public:
 		short unsigned getId()const;
 
 		//mutator
+		void moveButton(float x_Dif, float y_Dif); 
+
 		void setText(const std::string newText);
 		void setId(const short unsigned Id);
 
@@ -71,34 +74,53 @@ public:
 	private: 
 		float gridSize; //how many pixels are each square
 		bool isActive; //are we on the selecture
+		bool move; 
 		bool hidden; // can we see the selecture
+		bool is_moving;
+		bool selectorIsVisible; 
+
 		float keyTime; // used to make sure when we are pushing buttons it's updating appropriately 
 		const float maxKeyTime; 
 
-
+		
 		Gui::Button* hideButton; 
+		Gui::Button* pinButton; 
+
+		std::vector<Gui::Button*> buttonVector;
+		//Mouse controls
 		sf::Vector2u mousPosGrid; //row column the mouse position is on the text selector
+		sf::Vector2i mousePos; //pixels 
+		
+
 		sf::Sprite textureSheet;
 		sf::RectangleShape selectorBody;//a Rectangle shape that will contain all the sprites
 		sf::RectangleShape selector; //selector for each sprite
-		
+		sf::RenderWindow* window; 
 		sf::IntRect textureRect; //holds the specific texture selected
 	public: 
 		//Const/Destructor
 		TextureSelection(float x, float y, float width, float height, float gridSize, const sf::Texture* sheet, 
-			sf::Font& font, std::string text );
+			sf::Font& font, std::string text, sf::RenderWindow* window);
 			~TextureSelection();
 
 		//Accessors
 			const bool& isHidden() const; 
+			const bool& isMoveable() const; 
 			const bool& isSelectorActive() const; 
+			const bool& isMoving() const; 
+			const bool& isButtonActive() const; 
 			const sf::IntRect& getTextureSelected(); 
 
 	    //mutators
+
 	    const bool getKeyTime();//handles delta time with key presses
+		void highlightSelector(const bool& move, sf::Color new_color);
 	    void updateKeyTime(const float& dt);
+		void updateButtons(sf::Vector2i& mousePosition);
 		void update(sf::Vector2i& mousePosition, const float& dt); //updating to see if selecting new texture
 		void render(sf::RenderTarget& target);//rendering the button and texture selector out to the window; 
+		void selectorSetVisible(bool is_visible); 
+		void moveSelector(float x_Dif, float y_Dif); 
 		
 		void select();
 	};
@@ -113,6 +135,7 @@ public:
 		//functions
 		void render(sf::RenderTarget& target); 
 		void update(sf::RenderWindow* target);
+		void setVisibility(bool isVisible); 
 		void outOfBoundsHighlight(const bool inBounds, sf::Color new_color); 
 
 	private:
@@ -122,6 +145,7 @@ public:
 		int y;
 	    int tile_Size; 
 		sf::Color outlineColor; 
+		bool visible; 
 	};
 	
 protected: 
