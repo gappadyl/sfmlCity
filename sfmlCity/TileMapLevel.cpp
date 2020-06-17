@@ -344,7 +344,7 @@ void TileMapLevel::render(sf::RenderTarget& target, const bool showCollision)//n
 }
 bool TileMapLevel::isCordinateInsideMap(sf::Vector2i cordinate)
 {
-	if (cordinate.x >= 0 && cordinate.x < maxSizeWorldGrid.x && (cordinate.y >= 0 && cordinate.y < maxSizeWorldGrid.y))
+	if (cordinate.x >= 0 && cordinate.x < maxSizeWorldGrid.x * 32 && (cordinate.y >= 0 && cordinate.y < maxSizeWorldGrid.y* 32))
 	{
 		return true; 
 	}
@@ -353,24 +353,21 @@ bool TileMapLevel::isCordinateInsideMap(sf::Vector2i cordinate)
 }
 
 void TileMapLevel::addTile(float cord_x, float cord_y, float cord_z, sf::IntRect rectangle, bool collision, short type)
-{//add Tile at cordinates
-	//std::cout << cord_x << " " << cord_y << " " << cord_z << " " << type<<  std::endl; 
-
-	//When we put enemy tiles on, want to make sure there is a regular tile underneith without a hitbox. We can check by popping off the tiles into an array and
-	//then checking if the last tile is a regular tile
+{//add tiles
+	sf::Vector2i cordinateVector = sf::Vector2i(cord_x / 32, cord_y / 32); 
 	 
 	if (isCordinateInsideMap(sf::Vector2i(cord_x,cord_y)) )
 	{//checks if cordinates are within map size
 		std::cout << "cord_x " << cord_x << " cord_y " << cord_y <<  std::endl; 
 
-		if (isTileEmpty(cord_x, cord_y, cord_z))
+		if (isTileEmpty(cordinateVector.x, cordinateVector.y, cord_z))
 		{
-			map[cord_x][cord_y][cord_z].push_back(new RegularTile(cord_x, cord_y, gridSizeI, texture_sheet, rectangle, collision, type));
+			map[cordinateVector.x][cordinateVector.y][cord_z].push_back(new RegularTile(cordinateVector.x, cordinateVector.y, gridSizeI, texture_sheet, rectangle, collision, type));
 		}
 		else
 		{
-			map[cord_x][cord_y][cord_z].pop_back(); 
-			map[cord_x][cord_y][cord_z].push_back(new RegularTile(cord_x, cord_y, gridSizeI, texture_sheet, rectangle, collision, type));
+			map[cordinateVector.x][cordinateVector.y][cord_z].pop_back();
+			map[cordinateVector.x][cordinateVector.y][cord_z].push_back(new RegularTile(cordinateVector.x, cordinateVector.y, gridSizeI, texture_sheet, rectangle, collision, type));
 		}
 	}
 		//new RegularTile(x, y, gridSizeI, texture_sheet, sf::IntRect(trX, trY, gridSizeI, gridSizeI), collision, type)
