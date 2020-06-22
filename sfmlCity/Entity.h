@@ -36,6 +36,7 @@ public:
 
 	//Accessors
 	sf::RectangleShape getHitBox()const; 
+	sf::Vector2f getPosition()const; 
 	sf::Vector2f getHitBoxDimensions()const;
 
 	//Mutators

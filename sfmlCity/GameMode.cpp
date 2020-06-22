@@ -23,12 +23,15 @@ void GameMode::update(float& dt)
 	camera->boundsControl(camera->getCamera(), camera->getOldCamera() );
 
 	//GameMode Population Controls
-	this->population->updatePopulation(dt); 
+	 
 	
 	if (level)
 	{
-		level->gridBoarderCollisionCheck(population->getPlayer()); //doesnt work
+		level->gridBoarderCollisionCheck(population->getPlayer()); 
+		 
 	}
+
+	this->population->updatePopulation(dt);
 }
 
 void GameMode::render(sf::RenderTarget* target)

@@ -250,6 +250,89 @@ void TileMapLevel::gridBoarderCollisionCheck(Entity* entity) //need to change so
 	
 } // might have to change
 
+bool TileMapLevel::printEntityBoardPosition(Entity* entity)
+{
+	
+	sf::Vector2i topLeft_corner = sf::Vector2i(static_cast<int>(entity->getPosition().x /gridSizeI),
+		static_cast<int>(entity->getPosition().y/gridSizeI) ) ;
+
+	sf::Vector2i topRight_corner = static_cast<sf::Vector2i>(sf::Vector2f( (entity->getPosition().x + entity->getHitBoxDimensions().x) / gridSizeI,
+		entity->getPosition().y / gridSizeI)); 
+
+	sf::Vector2i botLeft_corner = static_cast<sf::Vector2i>(sf::Vector2f(entity->getPosition().x / gridSizeI,
+		(entity->getPosition().y + entity->getHitBoxDimensions().y) / gridSizeI));
+
+	sf::Vector2i botRight_corner = static_cast<sf::Vector2i>(sf::Vector2f( (entity->getPosition().x +entity->getHitBoxDimensions().x) /gridSizeI,
+		(entity->getPosition().y + entity->getHitBoxDimensions().y) / gridSizeI));
+	
+	std::vector<sf::Vector2i> corners; 
+
+	corners.push_back(topLeft_corner);
+	corners.push_back(topRight_corner); 
+	corners.push_back(botLeft_corner); 
+	corners.push_back(botRight_corner); 
+
+	for (sf::Vector2i corner : corners)
+	{
+		if (isCordinateInsideMap(sf::Vector2i(corner.x*gridSizeI,corner.y*gridSizeI)) )
+		{
+			for (int z = 0; z < map[corner.x][corner.y].size(); z++)
+			{
+				if (map[corner.x][corner.y][z].size() > 0)
+				{
+					if (map[corner.x][corner.y][z].front()->isCollidable())
+					{
+						return true; 
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+std::vector<sf::Vector2i> TileMapLevel::getCollidedCordinates(Entity* entity)
+{
+	std::vector<sf::Vector2i> intercept; 
+
+	std::vector<sf::Vector2i> collided; 
+
+	sf::Vector2i topLeft_corner = sf::Vector2i(static_cast<int>(entity->getPosition().x / gridSizeI),
+		static_cast<int>(entity->getPosition().y / gridSizeI));
+
+	sf::Vector2i topRight_corner = static_cast<sf::Vector2i>(sf::Vector2f((entity->getPosition().x + entity->getHitBoxDimensions().x) / gridSizeI,
+		entity->getPosition().y / gridSizeI));
+
+	sf::Vector2i botLeft_corner = static_cast<sf::Vector2i>(sf::Vector2f(entity->getPosition().x / gridSizeI,
+		(entity->getPosition().y + entity->getHitBoxDimensions().y) / gridSizeI));
+
+	sf::Vector2i botRight_corner = static_cast<sf::Vector2i>(sf::Vector2f((entity->getPosition().x + entity->getHitBoxDimensions().x) / gridSizeI,
+		(entity->getPosition().y + entity->getHitBoxDimensions().y) / gridSizeI));
+
+	intercept.push_back(topLeft_corner); 
+	intercept.push_back(topRight_corner); 
+	intercept.push_back(botLeft_corner); 
+	intercept.push_back(botRight_corner); 
+
+	for (sf::Vector2i corner : intercept)
+	{
+		if (isCordinateInsideMap(sf::Vector2i(corner.x * gridSizeI, corner.y * gridSizeI)))
+		{
+			for (int z = 0; z < map[corner.x][corner.y].size(); z++)
+			{
+				if (map[corner.x][corner.y][z].size() > 0)
+				{
+					if (map[corner.x][corner.y][z].front()->isCollidable())
+					{
+						collided.push_back(corner); 
+					}
+				}
+			}
+		}
+	}
+
+	return collided; 
+}
 void TileMapLevel::clear()
 {//clears map
 
