@@ -166,8 +166,10 @@
     <ClCompile Include="GameMode.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="HitBoxComponent.cpp" />
+    <ClCompile Include="LinkedPathList.cpp" />
     <ClCompile Include="Mode.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Population.cpp" />
     <ClCompile Include="RegularTile.cpp" />
@@ -187,8 +189,10 @@
     <ClInclude Include="GameMode.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="HitBoxComponent.h" />
+    <ClInclude Include="LinkedPathList.h" />
     <ClInclude Include="Mode.h" />
     <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="RegularTile.h" />

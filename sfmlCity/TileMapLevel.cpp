@@ -292,7 +292,7 @@ bool TileMapLevel::printEntityBoardPosition(Entity* entity)
 }
 
 std::vector<sf::Vector2i> TileMapLevel::getCollidedCordinates(Entity* entity)
-{
+{//returns cordinates that entity is colliding with
 	std::vector<sf::Vector2i> intercept; 
 
 	std::vector<sf::Vector2i> collided; 
@@ -384,7 +384,7 @@ void TileMapLevel::resize()
 }
 
 bool TileMapLevel::isTileEmpty(const int cord_x, const int cord_y, const int cord_z)
-{
+{//returns true is empty
 	if (cord_x >= 0 && cord_x <= maxSizeWorldGrid.x //checking if point clicked is in bounds of map
 		&& cord_y >= 0 && cord_y <= maxSizeWorldGrid.y 
 		&& cord_z >= 0 && cord_z < this->layers)
@@ -395,6 +395,23 @@ bool TileMapLevel::isTileEmpty(const int cord_x, const int cord_y, const int cor
 
 	return false; 
 		
+}
+
+bool TileMapLevel::isTileCollidable(sf::Vector2i cordinate)
+{
+	if (isCordinateInsideMap(cordinate))
+	{
+		for (size_t w = 0; w < map[cordinate.x][cordinate.y][currentLayer].size(); w++)
+		{
+				if (map[cordinate.x][cordinate.y][currentLayer][w]->getCollision()) //render collision box
+				{
+					return true; 
+				}
+	
+		}
+
+	return false; 
+	}
 }
 void TileMapLevel::update()
 {

@@ -29,6 +29,7 @@ public:
 	void removeTile(float cord_x , float cord_y); 
 	bool isTileEmpty(const int cord_x, const int cord_y, const int cord_z);
 	bool isCordinateInsideMap(sf::Vector2i cordinate); 
+	bool isTileCollidable(sf::Vector2i cordinate); 
 	//isTileVisible
 	//isTileHitBox
 
