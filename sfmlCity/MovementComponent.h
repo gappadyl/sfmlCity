@@ -1,10 +1,4 @@
-#pragma once
-#include"SFML/window.hpp"
-#include"SFML/System.hpp"
-#include"SFML/Graphics.hpp"
-#include"SFML/Audio.hpp"
-#include"SFML/Network.hpp"
-#include<iostream>
+#include "LinkedPathList.h"
 
 class MovementComponent
 {

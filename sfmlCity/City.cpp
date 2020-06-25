@@ -27,7 +27,7 @@ void City::initPopulation()
 	temp.loadFromFile("Textures/Player/DinoSprites - vita.png");
 	this->textures["PLAYER_IDLE"] = temp;
 
-	this->population = new Population( this->window, textures); 
+	this->population = new Population( this->window, textures, levelMap); 
 
 	 
 }

@@ -50,6 +50,52 @@ Gui::Button::Button(float x, float y, float width, float height,
 	this->id = id; 
 	this->isClickable = clickable; 
 	this->buttonState = idle_state; 
+	this->is_clicked = false; 
+}
+Gui::Button::Button(float x, float y, float width, float height,
+	sf::Font* font, std::string true_text,std::string false_text,  unsigned int textSize,
+	sf::Color IdleColor, sf::Color hoverColor, sf::Color activeColor,
+	sf::Color text_idle_color, sf::Color text_hover_color,
+	sf::Color text_active_color, sf::Color outline_hover_color,
+	sf::Color outline_active_color, sf::Color outline_idle_color, short unsigned id, bool clickable)
+{
+	//sets colors
+	this->idleColor = IdleColor;
+	this->hoverColor = hoverColor;
+	this->activeColor = activeColor;
+
+	this->text_idle_color = text_idle_color;
+	this->text_hover_color = text_hover_color;
+	this->text_active_color = text_active_color;
+
+	this->outlineIdleColor = outline_idle_color;
+	this->outlineHoverColor = outline_hover_color;
+	this->outlineActiveColor = outline_active_color;
+
+
+
+	//creates visble button 
+	button = sf::RectangleShape(sf::Vector2f(width, height));
+	button.setPosition(x, y);
+	button.setFillColor(idleColor);
+	button.setOutlineColor(outlineIdleColor);
+
+	//sets font & text
+	this->true_text = true_text; 
+	this->false_text = false_text; 
+	this->font = font;
+	this->text.setString(false_text);
+	this->text.setCharacterSize(textSize);
+	this->text.setFont(*this->font);
+	this->text.setFillColor(this->text_idle_color);
+	this->text.setPosition(button.getPosition().x + button.getGlobalBounds().width / 2.f -
+		this->text.getGlobalBounds().width / 2.f, button.getPosition().y);
+
+
+	this->id = id;
+	this->isClickable = clickable;
+	this->buttonState = idle_state;
+	this->is_clicked = false;
 }
 
 Gui::Button::~Button()
@@ -76,6 +122,19 @@ short unsigned Gui::Button::getId() const
 {
 	return this->id; 
 }
+std::string Gui::Button::getTrueText() const
+{
+	return this->true_text; 
+
+}
+std::string Gui::Button::getFalseText()const
+{
+	return this->false_text;
+}
+bool Gui::Button::clickedStatus()const
+{
+	return this->is_clicked; 
+}
 
 void Gui::Button::moveButton(float x_Dif, float y_Dif)
 {
@@ -89,7 +148,10 @@ void Gui::Button::setText(const std::string newText)
 	this->text.setPosition(button.getPosition().x + button.getGlobalBounds().width / 2.f -
 		this->text.getGlobalBounds().width / 2.f, button.getPosition().y);
 }
-
+void Gui::Button::clicked()
+{
+	is_clicked = !is_clicked; 
+}
 void Gui::Button::setId(const short unsigned Id)
 {
 	this->id = Id; 
@@ -101,6 +163,7 @@ bool Gui::Button::isHover()const
 
 return false; 
 }
+
 void Gui::Button::update(const sf::Vector2i& mousePosition)
 {//want to check if mouseposition is in button, check if it clicks, 
 	buttonState = idle_state; 
@@ -171,11 +234,11 @@ void Gui::Button::render(sf::RenderTarget& target)
 Gui::TextureSelection::TextureSelection(float x, float y, float width, float height, float gridSize,
 	const sf::Texture* sheet, sf::Font& font, std::string text, sf::RenderWindow* window):maxKeyTime(1.f), keyTime(0.f)
 {
-	hideButton = new Gui::Button(x, y, 15.0f, 15.0f, &font, text,  13, sf::Color::Red, sf::Color::Blue, sf::Color::Green,
+	hideButton = new Gui::Button(x, y, 15.0f, 15.0f, &font,"+",text,   13, sf::Color::Red, sf::Color::Blue, sf::Color::Green,
 		sf::Color::Black, sf::Color::Red, sf::Color::Black, sf::Color::Red, sf::Color::Blue, sf::Color::Green, 0, true) ; 
 
-	pinButton = new Gui::Button(x+ 15.0f, y, 15.0f, 15.0f, &font, "i", 13, sf::Color::Yellow, sf::Color::Blue, sf::Color::Green,
-		sf::Color::Black, sf::Color::Yellow, sf::Color::Black, sf::Color::Yellow, sf::Color::Blue, sf::Color::Green, 0, true);
+	pinButton = new Gui::Button(x+ 15.0f, y, 15.0f, 15.0f, &font, "o", "i", 13, sf::Color::Yellow, sf::Color::Blue, sf::Color::Green,
+		sf::Color::Black, sf::Color::Yellow, sf::Color::Black, sf::Color::Yellow, sf::Color::Blue, sf::Color::Green, 1, true);
 
 	buttonVector.push_back(pinButton); 
 	buttonVector.push_back(hideButton); 
@@ -250,6 +313,7 @@ const bool& Gui::TextureSelection::isMoving() const
 	return is_moving; 
 }
 
+
 const bool& Gui::TextureSelection::isButtonActive() const
 {
 	for (Gui::Button* button : buttonVector)
@@ -281,9 +345,12 @@ const bool Gui::TextureSelection::getKeyTime()
 
 	return false;
 }
+
 //Selector functions
+
+
 void Gui::TextureSelection::highlightSelector(const bool& move, sf::Color new_color)
-{
+{//if selector is moving, change the bodies outline color
 	if (move)
 	{
 		selectorBody.setOutlineColor(new_color); 
@@ -318,34 +385,34 @@ void Gui::TextureSelection::updateKeyTime(const float& dt)
 }
 void Gui::TextureSelection::updateButtons(sf::Vector2i& mousePosition)
 {
+	for (Gui::Button* button : buttonVector)
+	{
+		button->update(mousePosition); 
 
-	hideButton->update(mousePosition);
-	pinButton->update(mousePosition);
-	//turn this into a for each loop
-	if (hideButton->isActive() && getKeyTime())
-	{//if The button has been pressed and enough time has passed
-		hidden = !hidden;
-		std::cout << "switch hidden" << std::endl;
-		if (hidden)
+		if (button->isActive() && getKeyTime())
 		{
-			hideButton->setText("+");
+			button->clicked(); 
+			
+			if (button->clickedStatus())
+			{
+				button->setText(button->getTrueText()); 
+			}
+			else
+			{
+				button->setText(button->getFalseText());
+			}
 		}
-		else
-		{
-			hideButton->setText("X");
-		}
-	}
 
-	if (pinButton->isActive() && getKeyTime())
-	{//if button pressed and enough time has passed 
-		move = !move;
-		if (move)
+		switch (button->getId())
 		{
-			pinButton->setText("o");
-		}
-		else
-		{
-			pinButton->setText("i");
+		case 0://hidden id
+			hidden = button->clickedStatus();
+			break; 
+		case 1://pin id
+			move = button->clickedStatus(); 
+			break; 
+
+
 		}
 	}
 }

@@ -41,6 +41,9 @@
     <Filter Include="Source Files\Modes">
       <UniqueIdentifier>{f588176a-c6f2-4400-bef0-258f6ac1600a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Population\Path">
+      <UniqueIdentifier>{8eabb4f6-9c6f-4b4c-b222-31beb41a84d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfmlCity.cpp">
@@ -100,6 +103,12 @@
     <ClCompile Include="Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Path.cpp">
+      <Filter>Source Files\Population\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkedPathList.cpp">
+      <Filter>Source Files\Population\Path</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -154,6 +163,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedPathList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

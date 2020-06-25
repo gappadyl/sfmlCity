@@ -192,7 +192,10 @@ sf::Vector2f Entity::getHitBoxDimensions()const
 {
 	return sf::Vector2f(this->hitBoxComponent->getRect().getGlobalBounds().width, this->hitBoxComponent->getRect().getGlobalBounds().height); 
 }
-
+sf::Vector2f Entity::getPosition()const
+{
+	return(sprite.getPosition()); 
+}
 //Mutators
 
 void Entity::setPosition(sf::Vector2f position)

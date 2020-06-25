@@ -18,7 +18,8 @@ public:
 	void save_to_file(const std::string); //saves the current tiles to a file
 
 	void gridBoarderCollisionCheck(Entity* entity); //checks if the entity give is colliding with grid
-
+	bool printEntityBoardPosition(Entity* entity); 
+	std::vector<sf::Vector2i> getCollidedCordinates(Entity* entity); 
 	void update(); 
 	void render(sf::RenderTarget& target,const bool showCollision); //renders all of the tiles
 	//need to add another render function or too this current render function
@@ -28,6 +29,7 @@ public:
 	void removeTile(float cord_x , float cord_y); 
 	bool isTileEmpty(const int cord_x, const int cord_y, const int cord_z);
 	bool isCordinateInsideMap(sf::Vector2i cordinate); 
+	bool isTileCollidable(sf::Vector2i cordinate); 
 	//isTileVisible
 	//isTileHitBox
 

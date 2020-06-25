@@ -13,9 +13,11 @@ public:
 
 	private:
 		//button details
-		short unsigned buttonState;
-		bool isClickable;
-		short unsigned id;
+		short unsigned buttonState;//Buttons state
+		bool isClickable;//can be clicked
+		bool is_clicked; //has been clicked
+		short unsigned id;//buttons assigned id
+
 		sf::RectangleShape button;
 
 		//button colors
@@ -42,19 +44,29 @@ public:
 			sf::Color IdleColor, sf::Color hoverColor, sf::Color activeColor,
 			sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color,
 			sf::Color outline_hover_color, sf::Color outline_active_color, sf::Color outline_idle_color, short unsigned id = 0, bool clickable = true);
+		Button(float x, float y, float width, float height,
+			sf::Font* font, std::string true_text, std::string false_text, unsigned int textSize,
+			sf::Color IdleColor, sf::Color hoverColor, sf::Color activeColor,
+			sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color,
+			sf::Color outline_hover_color, sf::Color outline_active_color, sf::Color outline_idle_color, short unsigned id = 0, bool clickable = true);
 		~Button();
 
 		//accesors
 		std::string returnText()const;
 		bool isActive()const;
 		bool isHover()const; 
+		bool clickedStatus() const;//returns clicked on or off
 		short unsigned getId()const;
+		std::string getTrueText()const;
+		std::string getFalseText() const; 
+		
 
 		//mutator
 		void moveButton(float x_Dif, float y_Dif); 
 
 		void setText(const std::string newText);
 		void setId(const short unsigned Id);
+		void clicked(); 
 
 		//functions
 		void update(const sf::Vector2i& mousePosition);
