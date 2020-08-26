@@ -7,19 +7,10 @@ void Entity::initVariables()
 	this->movementComponent = NULL; 
 	this->animationComponent = NULL; 
 	this->hitBoxComponent = NULL; 
+	currentPath = NULL; 
 }
 
-void Entity::setTexture(sf::Texture& texture)
-{
-	
-	this->sprite.setTexture(texture); 
 
-}
-
-void Entity::setPosition(const float x, const float y)
-{
-		sprite.setPosition(sf::Vector2f(x, y));
-}
 
 void Entity::CreateMovementComponent(const float maxSpeed, const float acceleration, const float deceleration)
 {
@@ -47,6 +38,8 @@ void Entity::physicsAnimationCheck(const float& dt)
 	if (movementComponent )
 	{
 		velocity = movementComponent->getVelocity(); 
+		//std::cout << movementComponent->getVelocity().x << std::endl; 
+
 		direction = movementComponent->getDirection(); 
 
 		if (velocity == sf::Vector2f(0, 0)) //if not moving
@@ -86,6 +79,7 @@ Entity::~Entity()
 	delete this->movementComponent; 
 	delete this->animationComponent; 
 	delete this->hitBoxComponent; 
+	delete this->currentPath; 
 	
 }
 
@@ -160,9 +154,65 @@ void Entity::update(const float& dt)
 	
 		//checkDirection();
 	}
-	 
+	
 }
 
+void Entity::update(const float& dt, Path* path)
+{
+
+	if (movementComponent)
+	{
+		movementComponent->update(dt);
+		hitBoxComponent->update();
+
+		//checkDirection();
+	}
+	
+	updatePath(path); 
+
+	if (currentPath != NULL )
+	{
+		int x_dif = currentPath->data.x - getGridPosition().x;
+		int y_dif = currentPath->data.y - getGridPosition().y;
+
+	
+
+		if (x_dif == 0 && y_dif == 0)
+		{
+			currentPath = currentPath->next;
+			
+			if (currentPath != NULL)
+			{//if we're not on the last position
+				x_dif = currentPath->data.x - getGridPosition().x;
+				y_dif = currentPath->data.y - getGridPosition().y;
+			}
+		}
+
+
+		//stops acceleration after direction change
+		if (x_dif == 0)
+		{
+			stopVelocityX();
+		}
+
+		if (y_dif == 0)
+		{
+			stopVelocityY(); 
+		}
+
+		move(dt, x_dif, y_dif);//is teleporting, why??
+	}
+	
+	
+}
+
+void Entity::updatePath(Path* path)
+{
+	if (currentPath == NULL)
+	{
+		currentPath = path; 
+	}
+}
 void Entity::render(sf::RenderTarget* target)
 {
 	if (target == nullptr)
@@ -196,13 +246,76 @@ sf::Vector2f Entity::getPosition()const
 {
 	return(sprite.getPosition()); 
 }
+sf::Vector2i Entity::getGridPosition()const
+{//want to return what grid position the corners are on
+
+	//depends on velocity
+	sf::Vector2i topLeft_corner = sf::Vector2i(getPosition().x / 32, getPosition().y / 32); 
+	sf::Vector2i botRight_corner = sf::Vector2i((getPosition().x + getHitBoxDimensions().x) / 32, (getPosition().y + getHitBoxDimensions().y) / 32); 
+
+	sf::Vector2f direction = movementComponent->getDirection(); 
+
+	if (direction.x > 0)
+	{// if moving right
+		if (direction.y > 0)
+		{//if moving right and down
+			return topLeft_corner;
+		}
+		else if (direction.y < 0)
+		{//if moving right and up
+			return sf::Vector2i(topLeft_corner.x, botRight_corner.y); 
+		}
+		else
+		{//just moving Right
+			return topLeft_corner; 
+		}
+	}
+	else if (direction.x < 0)
+	{// if moving left
+
+		if (direction.y > 0)
+		{//if moving left and down
+			return sf::Vector2i(botRight_corner.x, topLeft_corner.y); 
+		}
+		else if (direction.y < 0)
+		{//if moving left and up
+			return botRight_corner; 
+		}
+		else
+		{// if moving just left
+			return botRight_corner;
+		}
+	}
+	else if(direction.y > 0)
+	{// if just moving down
+		return topLeft_corner; 
+	}
+	else if (direction.y < 0)
+	{// if just moving up
+		return botRight_corner; 
+	}
+	
+	 
+}
 //Mutators
 
+void Entity::setTexture(sf::Texture& texture)
+{
+
+	this->sprite.setTexture(texture);
+
+}
+
+void Entity::setPosition(const float x, const float y)
+{
+	sprite.setPosition(sf::Vector2f(x, y));
+}
 void Entity::setPosition(sf::Vector2f position)
 {
 	this->sprite.setPosition(position.x, position.y); 
 	
 }
+
 
 void Entity::stopVelocityX()
 {

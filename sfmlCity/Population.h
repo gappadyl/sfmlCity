@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <thread>
 #include <math.h>
 #include <iostream>
 #include "Person.h"
@@ -15,8 +16,9 @@ public:
 	~Population(); 
 
 	//Functions
-	void updatePopulation(float& dt);
+	void updatePopulation(const float& dt);
 	void renderPopulation(sf::RenderTarget* window);
+ void handlePathFinding(Entity* entity, const float& dt); 
 	float getHappy(); 
 	Person* getPlayer()const; 
 	//Variables

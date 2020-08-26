@@ -50,6 +50,12 @@ void Person::update(const float& dt)
 	//std::cout << "x: " << sprite.getPosition().x << " y: " << sprite.getPosition().y << std::endl; 
 	//std::cout << "velocity.x: " << movementComponent->getVelocity().x << "velocity.y: " << movementComponent->getVelocity().y << std::endl; 
 }
+
+void Person::update(const float& dt, Path* path)
+{
+	Entity::update(dt, path); 
+	this->physicsAnimationCheck(dt); 
+}
 //Accesor Func
 std::string Person::getName()
 {

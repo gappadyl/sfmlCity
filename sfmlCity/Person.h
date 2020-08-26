@@ -10,7 +10,7 @@ public:
 	
 	//Functions
 	void update(const float& dt); 
-	
+	void update(const float& dt, Path* path); 
 	//Accesors
 	std::string getName();
 	sf::Vector2f getLocation(); 
