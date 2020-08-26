@@ -239,10 +239,8 @@ void Population::updatePopulation(const float& dt)
 	std::vector<std::vector<int>> fillMap(16, std::vector<int>(16, -1)); 
 	std::vector <std::thread> threadList; 
 	
-	for (Entity* entity : population)
-	{
-
-		//tried implementing thread, failed ;/
+	//for (Entity* entity : population)
+	//{
 		//std::thread pathFinding(&Population::handlePathFinding, std::ref(population.at(0)), std::ref(dt)); 
 
 		//threadList.push_back(pathFinding); 
@@ -251,7 +249,7 @@ void Population::updatePopulation(const float& dt)
 		
 		
 		
-	}
+	//}
 	
 
 }

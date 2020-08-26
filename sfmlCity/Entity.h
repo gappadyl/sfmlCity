@@ -13,6 +13,7 @@ protected:
 	MovementComponent* movementComponent; 
 	AnimationComponent* animationComponent; 
 	HitBoxComponent* hitBoxComponent; 
+	Path* currentPath; 
 	//Functions
 	void physicsAnimationCheck(const float& dt); 
 
@@ -24,6 +25,8 @@ public:
 	//Functions
 	virtual void move(const float& dt, const float x, const float y); 
 	virtual void update(const float& dt); 
+	virtual void update(const float& dt, Path* path);
+	virtual void updatePath(Path* path); 
 	virtual void render(sf::RenderTarget* target); 
 	
 	//Initializers
@@ -37,6 +40,7 @@ public:
 	//Accessors
 	sf::RectangleShape getHitBox()const; 
 	sf::Vector2f getPosition()const; 
+	sf::Vector2i getGridPosition()const;
 	sf::Vector2f getHitBoxDimensions()const;
 
 	//Mutators
